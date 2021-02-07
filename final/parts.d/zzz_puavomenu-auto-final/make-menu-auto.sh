@@ -46,7 +46,7 @@ echo "  \"categories\": {"
 echo "     \"category-devel\": {"
 echo "        \"name\":  \"Neue Programme\","
 echo "        \"position\": 10,"
-#echo "        \"hidden_by_default\": true,"
+echo "        \"hidden_by_default\": true,"
 
 #programm array start
 echo "        \"programs\": ["
