@@ -1,1 +1,1 @@
-# puavo-os-free-buster-amd4
+# puavo-os-free-buster-amd64
