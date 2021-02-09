@@ -22,9 +22,13 @@ echo "v4l2loopback" > /etc/modules-load.d/v4l2loopback.conf
 if ! lsmod|grep -q v4l2loopback; then 
    cd v4l2loopback
    make && make install     
-#   depmod -a
+   depmod -a
 fi
 
-exit $?
+modprobe -r v4l2loopback 
+modprobe v4l2loopback $OPTS
+
+
+exit 0
 
 

@@ -3,9 +3,10 @@
 cd $(dirname $0)
 
 
-if test -f /usr/local/puavo-img-tool/applications.list;then
-    ALT=$(cat /usr/local/puavo-img-tool/applications.list | xargs)
+if test -f /var/local/puavo-img-tool/applications.list;then
+    ALT=$(cat /var/local/puavo-img-tool/applications.list | xargs)
 else
+    echo "no inputfile"
     exit 0
 fi
 
