@@ -35,12 +35,12 @@ BIN=$(which obs)
 mv $BIN $BIN.dist
 cat <<'EOF' > $BIN
 #!/bin/sh
-if ! lsmod|grep -q v4l2loopback;then
-   if test -n "$(which v4l2loopback-init)";then
-       v4l2loopback-init
-   fi
+DEVICE=""
+if test -n "$(which v4l2loopback-ini)", then
+    v4l2loopback-ini && DEVICE="$(v4l2loopback-ctl add -n "OBS-Cam" -x 1)"
 fi
 obs.dist
-exit $?
+test -n "$DEVICE" && v4l2loopback-ctl del $DEVICE
+exit
 EOF
 chmod +x $BIN
