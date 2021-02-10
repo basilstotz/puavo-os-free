@@ -31,4 +31,16 @@ for D in *.deb; do
 done
 #apt-get -y -f install
 
-
+BIN=$(which obs)
+mv $BIN $BIN.dist
+cat <<'EOF' > $BIN
+#!/bin/sh
+if ! lsmod|grep -q v4l2loopback;then
+   if test -n "$(which v4l2loopback-init)";then
+       v4l2loopback-init
+   fi
+fi
+obs.dist
+exit $?
+EOF
+chmod +x $BIN
