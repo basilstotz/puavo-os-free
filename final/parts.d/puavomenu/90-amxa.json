@@ -1,5 +1,8 @@
 {
   "programs": {
+    "joplin": {
+      "tags": "default"
+    },    
     "nuudel": {
       "name": "Nuudel - Termine und Umfragen",
       "type": "custom",
@@ -1130,7 +1133,8 @@
         "minibooks",
         "mymoment",
         "dybuster-ortho",
-        "flickr",
+          "flickr",
+	  "joplin",
         "desktopeditors",
         "libreoffice-writer",
         "org.kde.gcompris",

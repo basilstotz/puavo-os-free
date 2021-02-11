@@ -1,5 +1,8 @@
 #/bin/sh
-cd $(dirname $0)
 
-cp ./profile.d/* /etc/profile.d/.
+
+exit 0
+
+cd $(dirname $0)
+test -n "$(ls ./profile.d)" && cp ./profile.d/* /etc/profile.d/.
 

@@ -36,9 +36,8 @@ mv $BIN $BIN.dist
 cat <<'EOF' > $BIN
 #!/bin/sh
 DEVICE=""
-if test -n "$(which v4l2loopback-ini)", then
-    v4l2loopback-ini && DEVICE="$(v4l2loopback-ctl add -n "OBS-Cam" -x 1)"
-fi
+test -n "$(which v4l2loopback-ini)" && v4l2loopback-ini 
+test -n "$(which v4l2loopback-ctl)" && DEVICE="$(v4l2loopback-ctl add -n "OBS-Cam" -x 1)"
 obs.dist
 test -n "$DEVICE" && v4l2loopback-ctl del $DEVICE
 exit
