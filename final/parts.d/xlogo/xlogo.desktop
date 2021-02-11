@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Name=XLogo
+GenericName=XLogo
+Comment="Programmieren mit Logo"
+Keywords="lp21 informatik"
+Icon=xlogo.png
+Exec=/opt/xlogo/XLogo
+Terminal=false
+Categories=Education

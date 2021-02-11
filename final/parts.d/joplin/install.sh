@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 cd $(dirname $0)
 
 APP="Joplin-1.7.11.AppImage"
