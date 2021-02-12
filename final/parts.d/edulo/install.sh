@@ -1,12 +1,8 @@
 #!/bin/sh
-
 cd $(dirname $0)
-
-test -f ./edulo_amd64.deb || wget https://management.edulo.com/edulo_amd64.deb
-
-
-dpkg -i ./edulo_amd64.deb
-
-
-
+ROOT=$(basename $(pwd))
+ls| grep -q ${ROOT}*.deb || ./package.sh
+sudo dpkg -i $(ls |grep ${ROOT}*.deb)
 exit
+
+
