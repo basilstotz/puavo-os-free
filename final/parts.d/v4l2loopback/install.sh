@@ -32,13 +32,14 @@ cp ./v4l2loopback/udev/60-persistent-v4l2loopback.rules  /etc/udev/rules.d/.
 cat <<'EOF' > ./install.sh
 #
 #OPTS="devices=2 video_nr=10,20 card_label='OBS-Cam','OpenBoard-Cam' exclusive_caps=1,1"
+OPTS="devices=2 video_nr=10,11 exclusive_caps=1,1"
 #
-if  lsmod|grep -qv v4l2loopback; then
+if  ! lsmod|grep -q v4l2loopback; then
     cd /opt/v4l2loopback/v4l2loopback
     make && make install && make install-utils     
     depmod -a
     #modprobe -r v4l2loopback  
-    modprobe v4l2loopback
+    modprobe v4l2loopback $OPTS
 fi
 EOF
 chmod +x ./install.sh

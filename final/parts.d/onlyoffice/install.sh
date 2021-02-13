@@ -1,5 +1,6 @@
 #!/bin/sh
 
+cd $(dirname $0)
 
 DEB="onlyoffice-desktopeditors_6.1.0-90_amd64.deb"
 
