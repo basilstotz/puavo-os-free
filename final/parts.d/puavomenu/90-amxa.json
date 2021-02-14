@@ -418,15 +418,6 @@
     "map-geo-admin": {
       "tags": "default"
     },
-    "mathe-aktiv-division": {
-      "tags": "default"
-    },
-    "mathe-aktiv-insaetze": {
-      "tags": "default"
-    },
-    "mathe-aktiv-multiplikation": {
-      "tags": "default"
-    },
     "mathe-im-netz": {
       "tags": "default"
     },
@@ -1156,18 +1147,11 @@
         "blitzrechnen",
         "rechentraining",
         "rechentraining6",
-        "mathetrainer",
         "mathwelt",
           "edulo",
 	  "profax",
         "learning-view",
         "mindsteps",
-        "logisch1",
-        "logisch2",
-        "logisch3",
-        "logisch4",
-        "logisch5",
-          "logisch6",
 	  "mathigon",
 	  "vorbild-schule",
 	  "xaos",
