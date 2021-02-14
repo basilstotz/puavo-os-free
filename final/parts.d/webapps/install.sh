@@ -10,11 +10,11 @@ mkdir -p ./tree/usr/share/pixmaps
 INPUT="./webapps.csv"
 while IFS= read -r LINE; do
     #echo "$LINE"
-    NAME=$(echo $LINE|cut -d\; -f1)
-    TEXT=$(echo $LINE|cut -d\; -f2)
-    URL=$(echo $LINE|cut -d\; -f3)
+    NAME=$(echo $LINE|cut -d, -f1)
+    TEXT=$(echo $LINE|cut -d, -f2)
+    URL=$(echo $LINE|cut -d, -f3)
 
-    #echo " name $NAME text $TEXT url $URL"
+    echo " name $NAME text $TEXT url $URL"
 
     ICON=$(find ./icons/  -name $NAME.png)
     test -n "$ICON" || ICON="./icons/default.png"

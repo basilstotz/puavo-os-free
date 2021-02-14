@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=amxa
+Comment=amxa
+Exec=amxa
+Icon=./icons/default.png
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Categories=Web;

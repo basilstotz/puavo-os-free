@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=jitsi-cyon
+Comment=jitsi-cyon
+Exec=jitsi-cyon
+Icon=./icons/jitsi-cyon.png
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Categories=Web;
