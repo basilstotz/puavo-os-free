@@ -23,7 +23,7 @@ fi
 mkdir -p /opt/appimaged/
 cp ./appimaged-*.AppImage /opt/appimaged/.
 cp  appimaged.service     /etc/systemd/user/appimaged.service
-cp ./profile.d/* /etc/profile.d/
+cp ./profile.d/*.sh /etc/profile.d/
 
 exit
 
