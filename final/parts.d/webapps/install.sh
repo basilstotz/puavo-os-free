@@ -24,7 +24,7 @@ while IFS= read -r LINE; do
     if test -z "$BIN";then
 cat <<EOF > ./tree/usr/local/bin/$NAME
 #!/bin/sh
-chromium --app $URL
+chromium --app=$URL
 exit $?
 EOF
     else
@@ -38,7 +38,7 @@ cat <<EOF > ./tree/usr/share/applications/$NAME.desktop
 Name=$NAME
 Comment=$NAME
 Exec=$NAME
-Icon=$ICON
+Icon=/usr/share/pixmaps/$ICON
 Terminal=false
 X-MultipleArgs=false
 Type=Application

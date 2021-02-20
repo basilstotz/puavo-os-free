@@ -2,3 +2,4 @@
 *.squashfs
 *.tgz
 *#
+*.deb
