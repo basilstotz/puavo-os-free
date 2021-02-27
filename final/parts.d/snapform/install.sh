@@ -11,4 +11,6 @@ fi
            
 
 #install
+test -d /opt/SnapFormViewer && rm -r /opt/SnapFormViewer
 sh $APP -q   
+cp /opt/SnapFormViewer/Snapform\ Viewer.desktop /usr/share/applications/SnapformViewer.desktop 

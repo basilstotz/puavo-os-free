@@ -2,4 +2,9 @@
 
 cd $(dirname $0)
 
-cp -r ./etc/* /etc/.
+cp -r ./tree/* /
+
+systemctl enable puavo-avahi-publish.service
+
+
+

@@ -10,6 +10,7 @@ if cat /etc/issue|grep -q 9; then
 else
     echo "puavomenu buster"
     cp 90-amxa.json /etc/puavomenu/menudata/.
+    cp 85-webapps.json /etc/puavomenu/menudata/.
     #    cp menudata_loader.py /opt/puavomenu/loaders/.
 fi
 
