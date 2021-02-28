@@ -2,8 +2,8 @@
 
 cd $(dirname $0)
 
-./lookup-image-server-by-dns-patch.sh
-./install-and-update-ltspimages-patch.sh
+./patch/lookup-image-server-by-dns-patch.sh
+./patch/install-and-update-ltspimages-patch.sh
 
 cp -r ./tree/* /
 
