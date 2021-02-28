@@ -1,7 +1,0 @@
-[Unit]
-Description=Announce Puavo Devices
-[Service]
-Type=oneshot
-ExecStart=/usr/local/sbin/puavo-avahi-publish
-[Install]
-WantedBy=multi-user.target
