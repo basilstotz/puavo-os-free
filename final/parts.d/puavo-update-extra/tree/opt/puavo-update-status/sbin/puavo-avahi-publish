@@ -2,10 +2,11 @@
 
 
 hosttype=$(puavo-conf puavo.hosttype)
-
+echo $hosttype
 case $hosttype in
     laptop|wirelessaccesspoint)
-	webfsd -4 -p 1649 -r /opt/puavo-update-status -x /cgi -f index.html -j
+	echo "start webfsd ..."
+	/usr/bin/webfsd -4 -p 1649 -r /opt/puavo-update-status -x /cgi -f index.html -j
 	;;
     bootserver)
 	#start a virtual nginx host
@@ -28,5 +29,5 @@ EOF
 
 systemctl restart avahi-daemon.service
 
-
+sleep 9999999999999999999999999999999
 

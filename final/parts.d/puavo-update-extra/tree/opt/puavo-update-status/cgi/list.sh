@@ -21,6 +21,8 @@ cat <<EOF
     padding-right: 10px;
     margin: 0px;
   }
+  img:hover { width: 28px; }
+
   table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
@@ -59,7 +61,7 @@ function restart(addr) {
 <body>
 <h1>Puavo Update Status</h1>
 <table>
-  <tr><th>Hostname</th><th>Image</th><th>Phase</th><th>Progress</th><th>Battery</th><th>State</th><th>Action</th></tr>
+  <tr><th>Hostname</th><th>Image</th><th>Phase</th><th>Progress</th><th>Battery</th><th>State</th><th style="width:120px;">Action</th></tr>
 EOF
 
 dev=$(ip route|grep default|head -n1|xargs|cut -d\  -f5)
@@ -77,6 +79,7 @@ for a in $(avahi-browse -artp|grep "=;${dev};IPv4" | grep "laptop" | cut -d";" -
 
         image=$(echo $answer|cut -d\  -f2)
         image=$(basename -s .img $image)
+	image="$(echo $image|cut -d- -f1-4)-<b>$(echo $image|cut -d- -f5-7)</b>-$(echo $image|cut -d- -f8-9)"
         phase=$(echo $answer|cut -d\  -f4)
         progress=$(echo $answer|cut -d\  -f6)
 	supply=$(echo $answer|cut -d\  -f8)
@@ -86,7 +89,7 @@ for a in $(avahi-browse -artp|grep "=;${dev};IPv4" | grep "laptop" | cut -d";" -
 	style="style=\"color:black\""
         test "$addr" = "$myip" && style="style=\"color:blue\""	
         if test "$phase" = "finished" -a "$progress" = "100";then
-	    action="<img alt=\"\" src=\"../system-log-out.png\" onclick=\"update( $addr )\">"
+	    action="<img alt=\"\" src=\"../system-log-out.png\" onhover=\"alert("sdfsdfsdf")\" onclick=\"update( $addr )\">"
 	    if test  "$addr" != "$myip";then
 	        action="$action<img alt=\"\" src=\"../system-reboot.png\" onclick=\"restart( $addr )\"><img alt=\"\" src=\"../system-shutdown.png\" onclick=\"poweroff( $addr )\">"
 	        style="style=\"color:grey\""
