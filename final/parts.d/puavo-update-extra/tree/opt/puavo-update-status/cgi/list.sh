@@ -16,12 +16,13 @@ cat <<EOF
     font-family: arial, sans-serif;
   }
   img {
-    width: 24px;
+    width: 20px;
     padding: 0px;
-    padding-right: 10px;
-    margin: 0px;
+    padding-right: 5px;
+    padding-lft: 5px;
+    margin: 2px;
   }
-  img:hover { width: 28px; }
+  img:hover { width: 24px; margin:0px}
 
   table {
     font-family: arial, sans-serif;
@@ -37,7 +38,10 @@ cat <<EOF
   td {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
   tr:nth-child(odd) {
     background-color: #eeeeee;
@@ -77,13 +81,14 @@ for a in $(avahi-browse -artp|grep "=;${dev};IPv4" | grep "laptop" | cut -d";" -
     if fping -a $addr >/dev/null 2>&1;then
         answer=$(wget -O - http://$addr:1649/cgi/status.sh 2>/dev/null|xargs)
 
-        image=$(echo $answer|cut -d\  -f2)
+        host=$(echo $answer|cut -d\  -f2)
+        image=$(echo $answer|cut -d\  -f4)
         image=$(basename -s .img $image)
 	image="$(echo $image|cut -d- -f1-4)-<b>$(echo $image|cut -d- -f5-7)</b>-$(echo $image|cut -d- -f8-9)"
-        phase=$(echo $answer|cut -d\  -f4)
-        progress=$(echo $answer|cut -d\  -f6)
-	supply=$(echo $answer|cut -d\  -f8)
-	battery=$(echo $answer|cut -d\  -f10)
+        phase=$(echo $answer|cut -d\  -f6)
+        progress=$(echo $answer|cut -d\  -f8)
+	supply=$(echo $answer|cut -d\  -f10)
+	battery=$(echo $answer|cut -d\  -f12)
 
 	action=""
 	style="style=\"color:black\""
@@ -98,7 +103,7 @@ for a in $(avahi-browse -artp|grep "=;${dev};IPv4" | grep "laptop" | cut -d";" -
 	    fi
 	fi
 	
-        echo "  <tr $style><td>$name</td><td>$image</td><td>$phase</td><td>$progress</td><td>$battery</td><td>$supply</td><td>$action</td></tr>"
+        echo "  <tr $style><td>$host</td><td>$image</td><td>$phase</td><td>$progress</td><td>$battery</td><td>$supply</td><td>$action</td></tr>"
     fi
 done
 

@@ -7,7 +7,7 @@ update=$(cat /images/image_update.stats|xargs)
 
 power=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0|grep "state:\|percentage:"|sed -e "s/://g"|xargs)
 
-printf "%s %s\n" "$update" "$power"
+printf "host %s %s %s\n" "$(hostname)" "$update" "$power"
 
 
 
