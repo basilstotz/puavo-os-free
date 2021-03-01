@@ -1,6 +1,7 @@
 #!/bin/sh
 
 printf "Content-Type: text/plain\n"
+printf "Access-Control-Allow-Origin: *\n"
 printf "Status: 200 OK\n\n"
 
 update=$(cat /images/image_update.stats|xargs)

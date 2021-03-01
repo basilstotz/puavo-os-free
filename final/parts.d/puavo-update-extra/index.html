@@ -1,9 +1,6 @@
-#!/bin/sh
+Content-Type: text/html
+Status: 200 OK
 
-printf "Content-Type: text/html\n"
-printf "Status: 200 OK\n\n"
-
-cat <<EOF
 <!doctype html>
 <html lang="de">
 <head>
@@ -76,58 +73,10 @@ function restart(addr) {
 <h1>Puavo Update Status</h1>
 <table>
   <tr><th>Hostname</th><th>Image</th><th>Phase</th><th>Progress</th><th>Battery</th><th>State</th><th style="width:120px;">Action</th></tr>
-EOF
-
-dev=$(ip route|grep default|head -n1|xargs|cut -d\  -f5)
-myip=$(ip addr|grep -v :|grep $dev|xargs|cut -d\  -f2|cut -d/ -f1)
-
-
-
-for a in $(avahi-browse -artp|grep "=;${dev};IPv4" | grep "laptop" | cut -d";" -f7-9); do
-    name=$(echo $a|cut -d";" -f1)
-    name=$(basename -s .local $name)
-    addr=$(echo $a|cut -d";" -f2)
-
-    if fping -a $addr >/dev/null 2>&1;then
-        answer=$(wget -O - http://$addr:1649/cgi/status.sh 2>/dev/null|xargs)
-
-        host=$(echo $answer|cut -d\  -f2)
-        image=$(echo $answer|cut -d\  -f4)
-        image=$(basename -s .img $image)
-	image="$(echo $image|cut -d- -f1-4)-<b>$(echo $image|cut -d- -f5-7)</b>-$(echo $image|cut -d- -f8-9)"
-        phase=$(echo $answer|cut -d\  -f6)
-        progress=$(echo $answer|cut -d\  -f8)
-	supply=$(echo $answer|cut -d\  -f10)
-	battery=$(echo $answer|cut -d\  -f12)
-
-	action=""
-	style="style=\"color:black\""
-        test "$addr" = "$myip" && style="style=\"color:blue\""	
-        if test "$phase" = "finished" -a "$progress" = "100";then
-	    action="<img alt=\"\" src=\"../system-log-out.png\" onhover=\"alert("sdfsdfsdf")\" onclick=\"update( '$addr' )\">"
-	    if test  "$addr" != "$myip";then
-	        action="$action<img alt=\"\" src=\"../system-reboot.png\" onclick=\"restart( $addr )\"><img alt=\"\" src=\"../system-shutdown.png\" onclick=\"poweroff( $addr )\">"
-	        style="style=\"color:grey\""
-	    else
-		style="style=\"color:lightblue\""
-	    fi
-	fi
-	
-        echo "  <tr $style><td>$host</td><td>$image</td><td>$phase</td><td>$progress</td><td>$battery</td><td>$supply</td><td>$action</td></tr>"
-    fi
-done
-
-cat <<EOF
+  <tr style="color:lightblue"><td>zeus-011</td><td>puavo-os-free-buster-<b>2021-02-27</b>-163713-amd64</td><td>finished</td><td>100</td><td>98%</td><td>fully-charged</td><td><img alt="" src="../system-log-out.png" onhover="alert(sdfsdfsdf)" onclick="update( '192.168.1.197' )"></td></tr>
+  <tr style="color:grey"><td>basil-devel-lapi</td><td>puavo-os-amxa-stretch-<b>2021-01-07</b>-140055-amd64</td><td>finished</td><td>100</td><td>100%</td><td>fully-charged</td><td><img alt="" src="../system-log-out.png" onhover="alert(sdfsdfsdf)" onclick="update( '192.168.1.107' )"><img alt="" src="../system-reboot.png" onclick="restart( 192.168.1.107 )"><img alt="" src="../system-shutdown.png" onclick="poweroff( 192.168.1.107 )"></td></tr>
 </table>
 <br/>
 <button onclick="reload()">Seite neu laden</button>
 </body>
 </html>
-EOF
-
-
-
-
-
-
-# =;eth0;IPv4;puavo\032laptop\032zeus-011-2;SSH-Fernzugriff;local;zeus-011-2.local;192.168.1.197;22;
