@@ -4,78 +4,6 @@ printf "Content-Type: text/html\n"
 printf "Status: 200 OK\n\n"
 
 cat <<EOF
-<!doctype html>
-<html lang="de">
-<head>
-  <meta charset="utf-8">
-  <title>Puavo Update Status</title>
-  <meta name="description" content="Puavo Update Status">
-  <meta name="author" content="amxa.ch">
-  <style>
-  body {
-    font-family: arial, sans-serif;
-  }
-  img {
-    width: 20px;
-    padding: 0px;
-    padding-right: 5px;
-    padding-lft: 5px;
-    margin: 2px;
-  }
-  img:hover { width: 24px; margin:0px}
-
-  table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-    background-color: #aaaaaa;
-  }
-  td {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-  }
-  tr:nth-child(odd) {
-    background-color: #eeeeee;
-  }
-</style>
-<script>
-function httpGet(theUrl, callback)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-    }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);
-}
-function reload() {
-  location.replace("http://localhost:1649/cgi/list.sh")
-}
-function update(addr) {
-  httpGet("http://localhost:1649/cgi/call.sh?action=update&addr="+addr, function(response){})
-}
-function poweroff(addr) {
-  httpGet("http://localhost:1649/cgi/call.sh?action=poweroff&addr="+addr, function(response){})
-}
-function restart(addr) {
-  httpGet("http://localhost:1649/cgi/call.sh?action=restart&addr="+addr, function(response){})
-}
-</script>
-</head>
-<body>
-<h1>Puavo Update Status</h1>
-<table>
-  <tr><th>Host</th><th>Image</th><th>Phase</th><th>Progress</th><th>Battery</th><th>State</th><th>Wlan</th><th style="width:120px;">Action</th></tr>
 EOF
 
 
@@ -100,6 +28,9 @@ for addr in $peers; do
 	supply=$(echo $answer|cut -d\  -f10)
 	battery=$(echo $answer|cut -d\  -f12)
         wlan=$(echo $answer|cut -d\  -f14)
+        uptime=$(echo "$answer"|cut -d\  -f16)
+        uptime=$(printf '%dd %dh %dm %ds\n' $((uptime/86400)) $((uptime%86400/3600)) $((uptime%3600/60))  $((uptime%60)) )
+	
 	action=""
 	style="style=\"color:black\""
         test "$addr" = "$myip" && style="style=\"color:blue\""	
@@ -113,16 +44,11 @@ for addr in $peers; do
 	    fi
 	fi
 	
-        echo "  <tr $style><td>$host</td><td>$image</td><td>$phase</td><td>$progress</td><td>$battery</td><td>$supply</td><td>$wlan</td><td>$action</td></tr>"
+        echo "  <tr $style><td>$host</td><td>$image</td><td>$phase</td><td>$progress</td><td>$uptime</td><td>$battery</td><td>$supply</td><td>$wlan</td><td>$action</td></tr>"
     fi
 done
 
 cat <<EOF
-</table>
-<br/>
-<button onclick="reload()">Seite neu laden</button>
-</body>
-</html>
 EOF
 
 

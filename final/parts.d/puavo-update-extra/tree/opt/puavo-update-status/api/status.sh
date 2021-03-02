@@ -10,9 +10,9 @@ power=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0|grep "state:\|per
 
 wlan=$(iwconfig 2>/dev/null|grep Quality|xargs|cut -d\  -f4|cut -d"=" -f2)
 
-load=$()
+uptime=$(cat /proc/uptime | cut -d" " -f1|cut -d"." -f1)
 
-printf "host %s %s %s wlan %s\n" "$(hostname)" "$update" "$power" "$wlan"
+printf "host %s %s %s wlan %s uptime %s\n" "$(hostname)" "$update" "$power" "$wlan" "$uptime"
 
 
 

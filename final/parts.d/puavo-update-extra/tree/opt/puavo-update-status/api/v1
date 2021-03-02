@@ -1,0 +1,166 @@
+#!/bin/bash
+
+#http://www.yolinux.com/TUTORIALS/BashShellCgi.html
+
+printf "Content-type: text/json\n\n"
+
+#/usr/bin/env
+
+# REQUEST_URI=/cgi/env.sh/uhu/gaga/mmmmmm?ooo=iiiiiiiii&uuuu=7
+# SCRIPT_NAME=/cgi/env.sh
+# PATH_INFO=/uhu/gaga/mmmmmm
+# QUERY_STRING=ooo=iiiiiiiii&uuuu=7
+# REMOTE_ADDR=127.0.0.1
+# SERVER_ADDR=127.0.0.1
+
+first=0
+
+
+objects=""
+entity=""
+action=""
+
+objects=$(echo $PATH_INFO | cut -d"/" -f2)
+entity=$(echo $PATH_INFO | cut -d"/" -f3)
+action=$(echo $PATH_INFO | cut -d"/" -f4)
+
+#echo
+#echo "objects $objects entity $entity action $action !"
+
+
+call_remote(){
+    local name=$1
+    local aktion=$2
+
+    local addr=$(avahi-resolve -4 -n $name.local 2>/dev/null | xargs | cut -d\  -f2)
+    if test -n "$addr" ;then
+        if fping -a $addr >/dev/null 2>&1;then
+	    wget -O - http://$addr:1649/api/v1/devices/localhost/$aktion 2>/dev/null
+	    #if test -n "$ans";then
+	    #    printf "%s\n" $ans
+	#	return 0
+	 #   else
+	   #     return 1
+	    #fi
+	fi
+    fi
+ }
+
+get_list(){
+    local l=
+    local dev=$(ip route|grep default|head -n1|xargs|cut -d\  -f5)
+    local liste=$(avahi-browse -at|grep "$dev IPv4 puavo"|xargs|sed -e "s/+ //g"|sed -e "s/local/|/g"|sed -e "s/#/ /g")
+
+#    echo $liste
+    
+    printf "{\n"
+    while test -n "$liste";do
+        l=$(echo "$liste"|xargs|cut -d"|" -f1)
+        liste=$(echo "$liste"|cut -d"|" -f2-)
+        #echo $l
+        if test -n "$l";then 
+	    local hosttype=$(echo $l|xargs|cut -d\  -f4);
+	    local hostname=$(echo $l|xargs|cut -d\  -f5);
+	    local profiles=$(echo $l|xargs|cut -d\  -f6);
+	    if test $first = 0; then first=1; else printf ",\n";fi
+	    printf "   \"%s\": {\n" $hostname 
+	    printf "      \"hosttype\":  \"%s\",\n" $hosttype 
+	    printf "      \"profiles\": \"%s\",\n" $profiles
+	    printf "      \"status\": {\n"
+            call_remote $hostname "status"
+	    printf "      }\n" 
+	    printf "   }"
+	fi
+    done
+    printf "\n"
+    printf "}"
+}
+
+get_status(){
+    local update=$(cat /images/image_update.stats|xargs)
+    local power=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0| \
+		      grep "state:\|percentage:"|sed -e "s/://g"|sed -e "s/%//g"|xargs)
+    local wlan=$(iwconfig 2>/dev/null|grep Quality|xargs|cut -d\  -f4|cut -d"=" -f2)
+    local uptime=$(cat /proc/uptime | cut -d" " -f1|cut -d"." -f1)
+
+#    printf "\"status\": {\n"
+    printf "         \"host\": \"%s\",\n" $(hostname)
+    printf "         \"%s\": \"%s\",\n" $(echo $update | cut -d" " -f1) $(echo $update|cut -d" " -f2)
+    printf "         \"%s\": \"%s\",\n" $(echo $update | cut -d" " -f3) $(echo $update|cut -d" " -f4)
+    printf "         \"%s\": \"%s\",\n" $(echo $update | cut -d" " -f5) $(echo $update|cut -d" " -f6)
+    printf "         \"%s\": \"%s\",\n" $(echo $power | cut -d" " -f1) $(echo $power|cut -d" " -f2)
+    printf "         \"%s\": \"%s\",\n" $(echo $power | cut -d" " -f3) $(echo $power|cut -d" " -f4)
+    printf "         \"wlan\": \"%s\",\n" $wlan
+    printf "         \"uptime\": \"%s\"\n" $uptime
+#    printf "}"
+}
+
+show_error(){
+    echo "error"
+}
+
+    
+case "$objects" in
+    devices)
+	case "$entity" in
+	    localhost)
+		case "$action" in
+		    update)
+			echo /usr/sbin/puavo-update-client ;;
+		    reboot)
+			test "$SERVER_ADDR" = "$REMOTE_ADDR" || echo /usr/sbin/reboot ;;
+		    poweroff)
+			test "$SERVER_ADDR" = "$REMOTE_ADDR" || echo /usr/sbin/halt ;;
+		    status)
+			get_status ;;
+		    "")
+			get_status ;;
+		    *)
+			show_error ;;	    
+		esac
+	        ;;
+	    "")
+		get_list ;;
+	    *)
+		case $action in
+		    update|poweroff|reboot)
+			call_remote $entity $action ;;
+		    *) ;;
+		esac
+	esac
+	;;
+    *)
+	show_error ;;
+esac
+
+
+
+exit 0
+
+HTTP_ACCEPT_ENCODING=gzip, deflate
+SERVER_NAME=zeus-011.basel.opinsys.fi
+SCRIPT_NAME=/cgi/env.sh
+GATEWAY_INTERFACE=CGI/1.1
+SERVER_SOFTWARE=webfs/1.21
+PATH_INFO=/uhu/gaga/mmmmmm
+DOCUMENT_ROOT=/opt/puavo-update-status
+HTTP_UPGRADE_INSECURE_REQUESTS=1
+PWD=/
+REQUEST_URI=/cgi/env.sh/uhu/gaga/mmmmmm?ooo=iiiiiiiii&uuuu=7
+QUERY_STRING=ooo=iiiiiiiii&uuuu=7
+HTTP_ACCEPT_LANGUAGE=de,en-US;q=0.7,en;q=0.3
+HTTP_ACCEPT=text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+REMOTE_PORT=41670
+SERVER_ADMIN=root@localhost
+HTTP_HOST=localhost:1649
+HTTP_CONNECTION=keep-alive
+SERVER_ADDR=127.0.0.1
+HTTP_USER_AGENT=Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0
+SHLVL=1
+SERVER_PROTOCOL=HTTP/1.1
+SERVER_PORT=1649
+SCRIPT_FILENAME=/opt/puavo-update-status/cgi/env.sh
+REMOTE_ADDR=127.0.0.1
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+REQUEST_METHOD=GET
+_=/usr/bin/env

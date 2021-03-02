@@ -1,8 +1,69 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="de">
+<head>
+  <title>Puavo Update Status</title>
+
+  <meta charset="utf-8">
+  <meta name="description" content="Puavo Update Status">
+  <meta name="author" content="amxa.ch">
+
+  <link rel="stylesheet" href="styles.css?v=1.0">
+  <script src="scripts.js"></script>
+</head>
+
 <body>
+  <h1>Puavo Update Status</h1>
+
+  <table >
+    <tbody id="tabelle">
+      <tr><th>Host</th><th>Image</th><th>Phase</th><th>Progress</th><th>Uptime</th><th>Battery</th><th>State</th><th>Wlan</th><th style="width:120px;">Action</th></tr>
+    </tbody>
+  </table>
+
+<br/>
+<button onclick="reload()">Seite neu laden</button>
+
+<!--https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Traversing_an_HTML_table_with_JavaScript_and_DOM_Interfaces -->
+
 <script>
-  location.replace("http://localhost:1649/cgi/list.sh")
+
+  //***********************************************************************
+  
+  function makeRow(status){
+      let tmp;
+      let cell;
+      let cellText;
+      let row = document.createElement("tr");
+
+      for(var i=0;i<status.length;i++){
+          cell = document.createElement("dt");
+	  if(status[i]){tmp=status[i]}else{tmp="-----";}
+          cellText = document.createTextNode(tmp);
+          cell.appendChild(cellText);
+          row.appendChild(cell);
+      }
+      return row;
+  }
+
+  //**********************************************************************
+  
+  function getClients(callback) {
+     httpGet("http://localhost:1649/api/v1/devices/", callback)
+  }
+  
+  getClients(function(response){
+      const obj = JSON.parse(response);
+      let tblBody=getElementById("#tabelle");
+      for(var j=0;j<obj.length;j++){
+	  if(obj[j].hosttype == "laptop"){
+	      tblBody.appendChild(makeRow(obj[j].status));
+	  }
+      }
+  });
+  
 </script>
+
+
 </body>
-</html> 
+</html>
+
