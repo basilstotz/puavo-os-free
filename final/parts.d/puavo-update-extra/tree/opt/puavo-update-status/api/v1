@@ -36,12 +36,6 @@ call_remote(){
     if test -n "$addr" ;then
         if fping -a $addr >/dev/null 2>&1;then
 	    wget -O - http://$addr:1649/api/v1/devices/localhost/$aktion 2>/dev/null
-	    #if test -n "$ans";then
-	    #    printf "%s\n" $ans
-	#	return 0
-	 #   else
-	   #     return 1
-	    #fi
 	fi
     fi
  }
@@ -66,9 +60,10 @@ get_list(){
 	    printf "   \"%s\": {\n" $hostname 
 	    printf "      \"hosttype\":  \"%s\",\n" $hosttype 
 	    printf "      \"profiles\": \"%s\",\n" $profiles
-	    printf "      \"status\": {\n"
+#	    printf "      \"status\": {\n"
             call_remote $hostname "status"
-	    printf "      }\n" 
+#	    printf "      }"
+	    printf "\n"
 	    printf "   }"
 	fi
     done
@@ -83,7 +78,7 @@ get_status(){
     local wlan=$(iwconfig 2>/dev/null|grep Quality|xargs|cut -d\  -f4|cut -d"=" -f2)
     local uptime=$(cat /proc/uptime | cut -d" " -f1|cut -d"." -f1)
 
-#    printf "\"status\": {\n"
+    printf "\"status\": {\n"
     printf "         \"host\": \"%s\",\n" $(hostname)
     printf "         \"%s\": \"%s\",\n" $(echo $update | cut -d" " -f1) $(echo $update|cut -d" " -f2)
     printf "         \"%s\": \"%s\",\n" $(echo $update | cut -d" " -f3) $(echo $update|cut -d" " -f4)
@@ -92,7 +87,7 @@ get_status(){
     printf "         \"%s\": \"%s\",\n" $(echo $power | cut -d" " -f3) $(echo $power|cut -d" " -f4)
     printf "         \"wlan\": \"%s\",\n" $wlan
     printf "         \"uptime\": \"%s\"\n" $uptime
-#    printf "}"
+    printf "}"
 }
 
 show_error(){
@@ -110,7 +105,7 @@ case "$objects" in
 		    reboot)
 			test "$SERVER_ADDR" = "$REMOTE_ADDR" || echo /usr/sbin/reboot ;;
 		    poweroff)
-			test "$SERVER_ADDR" = "$REMOTE_ADDR" || echo /usr/sbin/halt ;;
+			test "$SERVER_ADDR" = "$REMOTE_ADDR" -o "$(puavo-conf puavo.hosttype)" = "bootserver" || echo /usr/sbin/halt ;;
 		    status)
 			get_status ;;
 		    "")
