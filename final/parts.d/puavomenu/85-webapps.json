@@ -1,10 +1,10 @@
 {
   "programs": {
-    "nuudel": {
-      "name": "Nuudel - Termine und Umfragen",
+    "mia-heft": {
+      "name": "Mia Heft",
       "type": "custom",
-      "command": "webapps https://nuudel.digitalcourage.de/",
-      "icon": "/usr/share/pixmaps/nuudel-logo.png",
+      "command": "webapps https://www.mia-heft.ch/",
+      "icon": "/usr/share/pixmaps/mia-heft.png",
       "tags": "default"
     },
     "remarkise": {
