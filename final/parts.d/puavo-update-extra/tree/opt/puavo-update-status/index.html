@@ -26,41 +26,9 @@
 <!--https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Traversing_an_HTML_table_with_JavaScript_and_DOM_Interfaces -->
 
 <script>
-
+   getClients();
+ 
   //***********************************************************************
-  
-  function makeRow(status){
-      let tmp;
-      let cell;
-      let cellText;
-      let row = document.createElement("tr");
-
-      for(var i=0;i<status.length;i++){
-          cell = document.createElement("dt");
-	  if(status[i]){tmp=status[i]}else{tmp="-----";}
-          cellText = document.createTextNode(tmp);
-          cell.appendChild(cellText);
-          row.appendChild(cell);
-      }
-      return row;
-  }
-
-  //**********************************************************************
-  
-  function getClients(callback) {
-     httpGet("http://localhost:1649/api/v1/devices/", callback)
-  }
-  
-  getClients(function(response){
-      const obj = JSON.parse(response);
-      let tblBody=getElementById("#tabelle");
-      for(var j=0;j<obj.length;j++){
-	  if(obj[j].hosttype == "laptop"){
-	      tblBody.appendChild(makeRow(obj[j].status));
-	  }
-      }
-  });
-  
 </script>
 
 

@@ -1,17 +1,11 @@
 #!/bin/bash
 
 #http://www.yolinux.com/TUTORIALS/BashShellCgi.html
+printf "Content-type: text/plain\n\n"
 
-printf "Content-type: text/json\n\n"
+
 
 #/usr/bin/env
-
-# REQUEST_URI=/cgi/env.sh/uhu/gaga/mmmmmm?ooo=iiiiiiiii&uuuu=7
-# SCRIPT_NAME=/cgi/env.sh
-# PATH_INFO=/uhu/gaga/mmmmmm
-# QUERY_STRING=ooo=iiiiiiiii&uuuu=7
-# REMOTE_ADDR=127.0.0.1
-# SERVER_ADDR=127.0.0.1
 
 first=0
 
@@ -27,6 +21,11 @@ action=$(echo $PATH_INFO | cut -d"/" -f4)
 #echo
 #echo "objects $objects entity $entity action $action !"
 
+sql="/tmp/rest.sql"
+
+echo "create table clients ( avahi,lastseen,online, host,hosttype,image,phase,progress,uptime,battery,state,wlan );" | sqlite3 $sql 
+
+#"hosttype $hosttype $hostT $host $imageT $image $phaseT $phase $progressT $progress $uptimeT $uptime $batteryT $battery $stateT $state $wlanT $wlan" 
 
 call_remote(){
     local name=$1
@@ -35,7 +34,7 @@ call_remote(){
     local addr=$(avahi-resolve -4 -n $name.local 2>/dev/null | xargs | cut -d\  -f2)
     if test -n "$addr" ;then
         if fping -a $addr >/dev/null 2>&1;then
-	    wget -O - http://$addr:1649/api/v1/devices/localhost/$aktion 2>/dev/null
+	    wget -O - http://$addr:1649/api/v1/devices/localhost/$aktion 2>/dev/null|xargs
 	fi
     fi
  }
@@ -47,7 +46,7 @@ get_list(){
 
 #    echo $liste
     
-    printf "{\n"
+#    printf "{\n"
     while test -n "$liste";do
         l=$(echo "$liste"|xargs|cut -d"|" -f1)
         liste=$(echo "$liste"|cut -d"|" -f2-)
@@ -56,39 +55,45 @@ get_list(){
 	    local hosttype=$(echo $l|xargs|cut -d\  -f4);
 	    local hostname=$(echo $l|xargs|cut -d\  -f5);
 	    local profiles=$(echo $l|xargs|cut -d\  -f6);
-	    if test $first = 0; then first=1; else printf ",\n";fi
-	    printf "   \"%s\": {\n" $hostname 
-	    printf "      \"hosttype\":  \"%s\",\n" $hosttype 
-	    printf "      \"profiles\": \"%s\",\n" $profiles
-#	    printf "      \"status\": {\n"
-            call_remote $hostname "status"
-#	    printf "      }"
-	    printf "\n"
-	    printf "   }"
+#	    if test $first = 0; then first=1; else printf ",\n";fi
+
+            echo -n "$hostname "
+	    
+
 	fi
     done
-    printf "\n"
-    printf "}"
+#    printf "\n"
+#    printf "}" ) | base64
 }
 
 get_status(){
     local update=$(cat /images/image_update.stats|xargs)
     local power=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0| \
-		      grep "state:\|percentage:"|sed -e "s/://g"|sed -e "s/%//g"|xargs)
+		      grep "state:\|percentage:"|sed -e "s/://g"|sed -e "s/%//g"|xargs)    
+    local hostT="host"
+    local host=$(hostname)
+    local hostypeT="hosttype"
+    local hosttype=$(puavo-conf puavo.hosttype)
+    local wlanT="wlan"
     local wlan=$(iwconfig 2>/dev/null|grep Quality|xargs|cut -d\  -f4|cut -d"=" -f2)
+    local uptimeT="uptime"
     local uptime=$(cat /proc/uptime | cut -d" " -f1|cut -d"." -f1)
-
-    printf "\"status\": {\n"
-    printf "         \"host\": \"%s\",\n" $(hostname)
-    printf "         \"%s\": \"%s\",\n" $(echo $update | cut -d" " -f1) $(echo $update|cut -d" " -f2)
-    printf "         \"%s\": \"%s\",\n" $(echo $update | cut -d" " -f3) $(echo $update|cut -d" " -f4)
-    printf "         \"%s\": \"%s\",\n" $(echo $update | cut -d" " -f5) $(echo $update|cut -d" " -f6)
-    printf "         \"%s\": \"%s\",\n" $(echo $power | cut -d" " -f1) $(echo $power|cut -d" " -f2)
-    printf "         \"%s\": \"%s\",\n" $(echo $power | cut -d" " -f3) $(echo $power|cut -d" " -f4)
-    printf "         \"wlan\": \"%s\",\n" $wlan
-    printf "         \"uptime\": \"%s\"\n" $uptime
-    printf "}"
+    
+    local imageT=$(echo $update | cut -d" " -f1)
+    local image=$(echo $update | cut -d" " -f2)
+    local phaseT=$(echo $update | cut -d" " -f3)
+    local phase=$(echo $update | cut -d" " -f4)
+    local progressT=$(echo $update | cut -d" " -f5)
+    local progress=$(echo $update | cut -d" " -f6)
+    local batteryT=$(echo $power | cut -d" " -f1)
+    local battery=$(echo $power | cut -d" " -f2)
+    local stateT=$(echo $power | cut -d" " -f3)
+    local state=$(echo $power | cut -d" " -f4)
+  
+echo -n "hosttype $hosttype $hostT $host $imageT $image $phaseT $phase $progressT $progress $uptimeT $uptime $batteryT $battery $stateT $state $wlanT $wlan" 
+    
 }
+
 
 show_error(){
     echo "error"
@@ -159,3 +164,38 @@ REMOTE_ADDR=127.0.0.1
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 REQUEST_METHOD=GET
 _=/usr/bin/env
+
+#	    printf '   "%b": {' $hostname 
+#	    printf '      "hosttype":  "%b",' $hosttype
+#	    printf "%b" "\"hosttype\": \"$hosttype\n"
+#	    printf '      "profiles": "%b",' $profiles
+#	    printf "      \"status\": {\n"
+#            call_remote $hostname "status"  
+#	    printf "      }"
+#	    printf ""
+#	    printf "   }"
+
+#    echo '{ \"status\": { "'$hostT'": "'$host'", "'$imageT'": "'$image'", "'$phaseT'": "'$phase'", "'$progressT'": "'$progress'", "'$uptimeT'": "'$uptime'", "'$batteryT'": "'$battery'", "'$stateT'": "'$state'", "'$wlanT'": "'$wlan'" } }' 
+
+#    echo gaga
+#    echo $(/usr/bin/jq -n "$json")
+#    echo uhu
+    
+#    echo  '"status": {'
+#    printf '         \"host\": \"%q\",\n' $(hostname)
+#    printf "         \"%q\": \"%q\",\n" $(echo $update | cut -d" " -f1) $(echo $update|cut -d" " -f2)
+#    printf "         \"%q\": \"%q\",\n" $(echo $update | cut -d" " -f3) $(echo $update|cut -d" " -f4)
+#    printf "         \"%q\": \"%q\",\n" $(echo $update | cut -d" " -f5) $(echo $update|cut -d" " -f6)
+#    printf "         \"%q\": \"%q\",\n" $(echo $power | cut -d" " -f1) $(echo $power|cut -d" " -f2)
+#    printf "         \"%q\": \"%q\",\n" $(echo $power | cut -d" " -f3) $(echo $power|cut -d" " -f4)
+#    printf "         \"wlan\": \"%q\",\n" $wlan
+#    printf "         \"uptime\": \"%q\"\n" $uptime
+#    printf "}"
+
+# REQUEST_URI=/cgi/env.sh/uhu/gaga/mmmmmm?ooo=iiiiiiiii&uuuu=7
+# SCRIPT_NAME=/cgi/env.sh
+# PATH_INFO=/uhu/gaga/mmmmmm
+# QUERY_STRING=ooo=iiiiiiiii&uuuu=7
+# REMOTE_ADDR=127.0.0.1
+# SERVER_ADDR=127.0.0.1
+
