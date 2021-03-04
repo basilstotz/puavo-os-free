@@ -1,5 +1,9 @@
 {
   "programs": {
+      "zotero": {
+	  "name": "Zotero",
+      "tags": "default"
+    },    
       "apostrophe": {
 	  "name": "Schreiben",
       "tags": "default"
@@ -292,7 +296,8 @@
 	  "typora",
           "cryptpad",
 	  "boostnote", "formiko", "ghostwriter", "me.mitya57.ReText", "mark-my-words", "abricotine",
-        "scribus",
+          "scribus",
+	  "zotero",
         "vym",
         "com.github.xournalpp.xournalpp",
         "cmaptools",
