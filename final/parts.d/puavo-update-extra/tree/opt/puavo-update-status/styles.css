@@ -15,19 +15,18 @@
     border-collapse: collapse;
     width: 100%;
   }
-  th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-    background-color: #aaaaaa;
+  thead td{
+      font-weight:bold;
+      background-color: #aaaaaa;
+      text-align:center;
   }
   td {
     border: 1px solid #dddddd;
     text-align: left;
     padding-left: 8px;
     padding-right: 8px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
   tr:nth-child(odd) {
     background-color: #eeeeee;

@@ -14,24 +14,15 @@
 <body>
   <h1>Puavo Update Status</h1>
 
-  <table >
-    <tbody id="tabelle">
-      <tr><th>Host</th><th>Image</th><th>Phase</th><th>Progress</th><th>Uptime</th><th>Battery</th><th>State</th><th>Wlan</th><th style="width:120px;">Action</th></tr>
-    </tbody>
-  </table>
+  <div style="font-weight:bold;" id="loading">&nbsp;</div>
+  
+  <div id="tabelle"></div>
+  <br/>
+  <button onclick="getClients()">Seite neu laden</button>
 
-<br/>
-<button onclick="reload()">Seite neu laden</button>
-
-<!--https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Traversing_an_HTML_table_with_JavaScript_and_DOM_Interfaces -->
-
-<script>
-   getClients();
- 
-  //***********************************************************************
-</script>
-
-
+  <script>
+     getClients();
+  </script>
 </body>
 </html>
 

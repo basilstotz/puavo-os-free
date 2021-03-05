@@ -23,7 +23,22 @@ action=$(echo $PATH_INFO | cut -d"/" -f4)
 
 sql="/tmp/rest.sql"
 
-echo "create table clients ( avahi,lastseen,online, host,hosttype,image,phase,progress,uptime,battery,state,wlan );" | sqlite3 $sql 
+
+device=""
+cols="host,image,phase,progress,uptime,percentage,state,wlan "
+
+init_table(){
+test -f $sql && rm $sql
+
+sql_cmd="create table devices ( avahi, hosttype, $cols );"
+#echo $sql_cmd
+echo $sql_cmd  | sqlite3 $sql
+
+sql_cmd="insert into devices ( avahi, hosttype, $cols ) values ( 'Avahi', 'Hosttpype', 'Host', 'Image', 'Phase', 'Progress', 'Uptime', 'Battery', 'State', 'Wlan' );"
+#echo $sql_cmd
+echo $sql_cmd  | sqlite3 $sql
+}
+
 
 #"hosttype $hosttype $hostT $host $imageT $image $phaseT $phase $progressT $progress $uptimeT $uptime $batteryT $battery $stateT $state $wlanT $wlan" 
 
@@ -39,64 +54,95 @@ call_remote(){
     fi
  }
 
+
+get_status(){
+    local hostT="host"
+    local host=$(hostname)
+    local hosttypeT="hosttype"
+    local hosttype=$(puavo-conf puavo.hosttype)
+
+    if test "$hosttype" = "laptop";then
+       local update=$(cat /images/image_update.stats|xargs)
+       local power=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0| \
+		      grep "state:\|percentage:"|sed -e "s/://g"|sed -e "s/%//g"|xargs)    
+       local wlanT="wlan"
+       local wlan=$(iwconfig 2>/dev/null|grep Quality|xargs|cut -d\  -f4|cut -d"=" -f2)
+       local uptimeT="uptime"
+       local uptime=$(cat /proc/uptime | cut -d" " -f1|cut -d"." -f1)
+    
+       local imageT=$(echo $update | cut -d" " -f1)
+       local image=$(echo $update | cut -d" " -f2)
+       local phaseT=$(echo $update | cut -d" " -f3)
+       local phase=$(echo $update | cut -d" " -f4)
+       local progressT=$(echo $update | cut -d" " -f5)
+       local progress=$(echo $update | cut -d" " -f6)
+       local batteryT=$(echo $power | cut -d" " -f1)
+       local battery=$(echo $power | cut -d" " -f2)
+       local stateT=$(echo $power | cut -d" " -f3)
+       local state=$(echo $power | cut -d" " -f4)
+
+       local dev="$hosttypeT $hosttype $hostT $host $imageT $image $phaseT $phase $progressT $progress $uptimeT $uptime $batteryT $battery $stateT $state $wlanT $wlan" 
+    else
+	local dev="$hosttypeT $hosttype $hostT $host"
+    fi
+    
+    echo $dev
+}
+
+gv(){
+local value=$1
+local found=1
+for n in $device; do
+    if test $found = 0;then echo $n; return;fi
+    if test $n = $value; then found=0;fi
+done
+}
+ 
+show_error(){
+    echo "error"
+}
+
 get_list(){
     local l=
     local dev=$(ip route|grep default|head -n1|xargs|cut -d\  -f5)
     local liste=$(avahi-browse -at|grep "$dev IPv4 puavo"|xargs|sed -e "s/+ //g"|sed -e "s/local/|/g"|sed -e "s/#/ /g")
 
-#    echo $liste
+    #echo getlist : $liste
     
 #    printf "{\n"
     while test -n "$liste";do
         l=$(echo "$liste"|xargs|cut -d"|" -f1)
         liste=$(echo "$liste"|cut -d"|" -f2-)
-        #echo $l
         if test -n "$l";then 
-	    local hosttype=$(echo $l|xargs|cut -d\  -f4);
+#	    local hosttype=$(echo $l|xargs|cut -d\  -f4);
 	    local hostname=$(echo $l|xargs|cut -d\  -f5);
-	    local profiles=$(echo $l|xargs|cut -d\  -f6);
+#	    local profiles=$(echo $l|xargs|cut -d\  -f6);
 #	    if test $first = 0; then first=1; else printf ",\n";fi
 
-            echo -n "$hostname "
+#            echo   "$hostname :::"
+	    device=$(call_remote $hostname "status")  
+#            echo $device
+#	    echo "ende"
+# $cols=" avahi,     host,hosttype,image,phase,progress,uptime,battery,state,wlan "
 	    
-
+            local sql_cmd="insert into devices ( avahi, hosttype, $cols ) values ( '$hostname' , '$(gv hosttype)', '$(gv host)', '$(gv image)', '$(gv phase)', '$(gv progress)', '$(gv uptime)', '$(gv percentage)', '$(gv state)', '$(gv wlan)' );"
+#	    echo $sql_cmd
+	    echo "$sql_cmd" | sqlite3 $sql
+	    
 	fi
     done
 #    printf "\n"
-#    printf "}" ) | base64
-}
+    #    printf "}" ) | base64
 
-get_status(){
-    local update=$(cat /images/image_update.stats|xargs)
-    local power=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0| \
-		      grep "state:\|percentage:"|sed -e "s/://g"|sed -e "s/%//g"|xargs)    
-    local hostT="host"
-    local host=$(hostname)
-    local hostypeT="hosttype"
-    local hosttype=$(puavo-conf puavo.hosttype)
-    local wlanT="wlan"
-    local wlan=$(iwconfig 2>/dev/null|grep Quality|xargs|cut -d\  -f4|cut -d"=" -f2)
-    local uptimeT="uptime"
-    local uptime=$(cat /proc/uptime | cut -d" " -f1|cut -d"." -f1)
-    
-    local imageT=$(echo $update | cut -d" " -f1)
-    local image=$(echo $update | cut -d" " -f2)
-    local phaseT=$(echo $update | cut -d" " -f3)
-    local phase=$(echo $update | cut -d" " -f4)
-    local progressT=$(echo $update | cut -d" " -f5)
-    local progress=$(echo $update | cut -d" " -f6)
-    local batteryT=$(echo $power | cut -d" " -f1)
-    local battery=$(echo $power | cut -d" " -f2)
-    local stateT=$(echo $power | cut -d" " -f3)
-    local state=$(echo $power | cut -d" " -f4)
-  
-echo -n "hosttype $hosttype $hostT $host $imageT $image $phaseT $phase $progressT $progress $uptimeT $uptime $batteryT $battery $stateT $state $wlanT $wlan" 
-    
-}
-
-
-show_error(){
-    echo "error"
+    echo "<table>"
+    echo "<thead>"
+    echo "select $cols from devices where rowid=1"| sqlite3 -html $sql |xargs
+    echo "</thead>"
+    echo "<tbody>"
+    sql_cmd="select $cols from devices where rowid!=1 and hosttype='laptop' order by host;"
+    echo $sql_cmd | sqlite3 -html $sql | xargs
+    echo "</tbody>"
+    echo "</table>"
 }
 
     
@@ -120,6 +166,7 @@ case "$objects" in
 		esac
 	        ;;
 	    "")
+		init_table
 		get_list ;;
 	    *)
 		case $action in

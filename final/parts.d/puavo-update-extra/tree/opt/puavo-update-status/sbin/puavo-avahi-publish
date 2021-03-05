@@ -2,7 +2,8 @@
 
 
 hosttype=$(puavo-conf puavo.hosttype)
-list=$(puavo-conf puavo.profiles.list
+list=$(puavo-conf puavo.profiles.list)
+
 echo $hosttype
 case $hosttype in
     laptop|wirelessaccesspoint)
@@ -20,7 +21,7 @@ cat <<EOF > /etc/avahi/services/puavo-avahi-publish.service
 <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
 <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
 <service-group>
-<name replace-wildcards="yes">puavo=$hosttype=%h=$list</name>
+<name replace-wildcards="yes">puavo $hosttype %h $list</name>
 <service>
 <type>_ssh._tcp</type>
 <port>22</port>
