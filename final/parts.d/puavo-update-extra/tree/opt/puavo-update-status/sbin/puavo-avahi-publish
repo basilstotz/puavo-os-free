@@ -4,18 +4,17 @@
 hosttype=$(puavo-conf puavo.hosttype)
 list=$(puavo-conf puavo.profiles.list)
 
-echo $hosttype
-case $hosttype in
-    laptop|wirelessaccesspoint)
+#case $hosttype in
+#    laptop|wirelessaccesspoint|fatclient)
 	echo "start webfsd ..."
 	/usr/bin/webfsd -4 -p 1649 -r /opt/puavo-update-status -x /api -f index.html -j
-	;;
-    bootserver)
-	#start a virtual nginx host
-	;;
-    *)
-	;;
-esac
+#	;;
+#    bootserver)
+#	# /usr/bin/sed -e "s/#host-name=foo/host-name=puavobox/g" -i /etc/avahi/avahi-daemon.conf
+#	;;
+#    *)
+#	;;
+#esac
 
 cat <<EOF > /etc/avahi/services/puavo-avahi-publish.service
 <?xml version="1.0" standalone='no'?><!--*-nxml-*-->

@@ -18,8 +18,6 @@ objects=$(echo $PATH_INFO | cut -d"/" -f2)
 entity=$(echo $PATH_INFO | cut -d"/" -f3)
 action=$(echo $PATH_INFO | cut -d"/" -f4)
 
-#echo
-#echo "objects $objects entity $entity action $action !"
 
 sql="/tmp/rest.sql"
 
@@ -31,16 +29,12 @@ init_table(){
 test -f $sql && rm $sql
 
 sql_cmd="create table devices ( avahi, hosttype, $cols );"
-#echo $sql_cmd
 echo $sql_cmd  | sqlite3 $sql
 
 sql_cmd="insert into devices ( avahi, hosttype, $cols ) values ( 'Avahi', 'Hosttpype', 'Host', 'Image', 'Phase', 'Progress', 'Uptime', 'Battery', 'State', 'Wlan' );"
-#echo $sql_cmd
 echo $sql_cmd  | sqlite3 $sql
 }
 
-
-#"hosttype $hosttype $hostT $host $imageT $image $phaseT $phase $progressT $progress $uptimeT $uptime $batteryT $battery $stateT $state $wlanT $wlan" 
 
 call_remote(){
     local name=$1
@@ -98,41 +92,26 @@ for n in $device; do
 done
 }
  
-show_error(){
-    echo "error"
-}
 
 get_list(){
     local l=
     local dev=$(ip route|grep default|head -n1|xargs|cut -d\  -f5)
     local liste=$(avahi-browse -at|grep "$dev IPv4 puavo"|xargs|sed -e "s/+ //g"|sed -e "s/local/|/g"|sed -e "s/#/ /g")
 
-    #echo getlist : $liste
-    
-#    printf "{\n"
-    while test -n "$liste";do
+     while test -n "$liste";do
         l=$(echo "$liste"|xargs|cut -d"|" -f1)
         liste=$(echo "$liste"|cut -d"|" -f2-)
         if test -n "$l";then 
 #	    local hosttype=$(echo $l|xargs|cut -d\  -f4);
 	    local hostname=$(echo $l|xargs|cut -d\  -f5);
-#	    local profiles=$(echo $l|xargs|cut -d\  -f6);
-#	    if test $first = 0; then first=1; else printf ",\n";fi
-
-#            echo   "$hostname :::"
 	    device=$(call_remote $hostname "status")  
-#            echo $device
-#	    echo "ende"
-# $cols=" avahi,     host,hosttype,image,phase,progress,uptime,battery,state,wlan "
 	    
             local sql_cmd="insert into devices ( avahi, hosttype, $cols ) values ( '$hostname' , '$(gv hosttype)', '$(gv host)', '$(gv image)', '$(gv phase)', '$(gv progress)', '$(gv uptime)', '$(gv percentage)', '$(gv state)', '$(gv wlan)' );"
-#	    echo $sql_cmd
+
 	    echo "$sql_cmd" | sqlite3 $sql
 	    
 	fi
     done
-#    printf "\n"
-    #    printf "}" ) | base64
 
     echo "<table>"
     echo "<thead>"
@@ -157,12 +136,9 @@ case "$objects" in
 			test "$SERVER_ADDR" = "$REMOTE_ADDR" || echo /usr/sbin/reboot ;;
 		    poweroff)
 			test "$SERVER_ADDR" = "$REMOTE_ADDR" -o "$(puavo-conf puavo.hosttype)" = "bootserver" || echo /usr/sbin/halt ;;
-		    status)
+		    status|"")
 			get_status ;;
-		    "")
-			get_status ;;
-		    *)
-			show_error ;;	    
+		    *) ;;	    
 		esac
 	        ;;
 	    "")
@@ -176,68 +152,14 @@ case "$objects" in
 		esac
 	esac
 	;;
-    *)
-	show_error ;;
+    *) ;;
 esac
 
 
 
+
+
 exit 0
-
-HTTP_ACCEPT_ENCODING=gzip, deflate
-SERVER_NAME=zeus-011.basel.opinsys.fi
-SCRIPT_NAME=/cgi/env.sh
-GATEWAY_INTERFACE=CGI/1.1
-SERVER_SOFTWARE=webfs/1.21
-PATH_INFO=/uhu/gaga/mmmmmm
-DOCUMENT_ROOT=/opt/puavo-update-status
-HTTP_UPGRADE_INSECURE_REQUESTS=1
-PWD=/
-REQUEST_URI=/cgi/env.sh/uhu/gaga/mmmmmm?ooo=iiiiiiiii&uuuu=7
-QUERY_STRING=ooo=iiiiiiiii&uuuu=7
-HTTP_ACCEPT_LANGUAGE=de,en-US;q=0.7,en;q=0.3
-HTTP_ACCEPT=text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
-REMOTE_PORT=41670
-SERVER_ADMIN=root@localhost
-HTTP_HOST=localhost:1649
-HTTP_CONNECTION=keep-alive
-SERVER_ADDR=127.0.0.1
-HTTP_USER_AGENT=Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0
-SHLVL=1
-SERVER_PROTOCOL=HTTP/1.1
-SERVER_PORT=1649
-SCRIPT_FILENAME=/opt/puavo-update-status/cgi/env.sh
-REMOTE_ADDR=127.0.0.1
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
-REQUEST_METHOD=GET
-_=/usr/bin/env
-
-#	    printf '   "%b": {' $hostname 
-#	    printf '      "hosttype":  "%b",' $hosttype
-#	    printf "%b" "\"hosttype\": \"$hosttype\n"
-#	    printf '      "profiles": "%b",' $profiles
-#	    printf "      \"status\": {\n"
-#            call_remote $hostname "status"  
-#	    printf "      }"
-#	    printf ""
-#	    printf "   }"
-
-#    echo '{ \"status\": { "'$hostT'": "'$host'", "'$imageT'": "'$image'", "'$phaseT'": "'$phase'", "'$progressT'": "'$progress'", "'$uptimeT'": "'$uptime'", "'$batteryT'": "'$battery'", "'$stateT'": "'$state'", "'$wlanT'": "'$wlan'" } }' 
-
-#    echo gaga
-#    echo $(/usr/bin/jq -n "$json")
-#    echo uhu
-    
-#    echo  '"status": {'
-#    printf '         \"host\": \"%q\",\n' $(hostname)
-#    printf "         \"%q\": \"%q\",\n" $(echo $update | cut -d" " -f1) $(echo $update|cut -d" " -f2)
-#    printf "         \"%q\": \"%q\",\n" $(echo $update | cut -d" " -f3) $(echo $update|cut -d" " -f4)
-#    printf "         \"%q\": \"%q\",\n" $(echo $update | cut -d" " -f5) $(echo $update|cut -d" " -f6)
-#    printf "         \"%q\": \"%q\",\n" $(echo $power | cut -d" " -f1) $(echo $power|cut -d" " -f2)
-#    printf "         \"%q\": \"%q\",\n" $(echo $power | cut -d" " -f3) $(echo $power|cut -d" " -f4)
-#    printf "         \"wlan\": \"%q\",\n" $wlan
-#    printf "         \"uptime\": \"%q\"\n" $uptime
-#    printf "}"
 
 # REQUEST_URI=/cgi/env.sh/uhu/gaga/mmmmmm?ooo=iiiiiiiii&uuuu=7
 # SCRIPT_NAME=/cgi/env.sh
@@ -245,4 +167,5 @@ _=/usr/bin/env
 # QUERY_STRING=ooo=iiiiiiiii&uuuu=7
 # REMOTE_ADDR=127.0.0.1
 # SERVER_ADDR=127.0.0.1
+
 
