@@ -48,6 +48,43 @@ call_remote(){
     fi
  }
 
+ip(){
+    local a=$1
+    local b=$2
+    local p=$3
+
+    echo $(( a + ( ( b - a ) * p ) / 100 ))
+}
+
+
+calc_progress(){
+    local phase=$1
+    local percent=$2
+    
+    if test $phase = "starting";then
+	printf "0"
+    elif test $phase = "checkum_fetch";then
+	printf "%s" $( ip 0 1 $percent)
+    elif test $phase = "rdiff_fetch";then
+	printf "%s" $( ip 1 75 $percent)
+    elif test $phase = "rdiff_cecksum";then
+	printf "%s" $( ip 75 80 $percent)
+    elif test $phase = "image_patch";then
+	printf "%s" $( ip 80 90 $percent)
+    elif test $phase = "image_donwload";then
+	printf "%s" $( ip 1 90 $percent)
+    elif test $phase = "image_sync";then
+	printf "%s" $( ip 1 90 $percent)
+    elif test $phase = "image_checksum";then
+	printf "%s" $( ip 90 100 $percent)
+    elif test $phase = "finished";then
+        printf "100"
+    else
+	printf "???"
+    fi
+    
+}
+
 
 get_status(){
     local hostT="host"
@@ -65,17 +102,21 @@ get_status(){
        local uptime=$(cat /proc/uptime | cut -d" " -f1|cut -d"." -f1)
     
        local imageT=$(echo $update | cut -d" " -f1)
-       local image=$(echo $update | cut -d" " -f2)
+       local image=$(basename -s .img $(echo $update | cut -d" " -f2))
+
        local phaseT=$(echo $update | cut -d" " -f3)
        local phase=$(echo $update | cut -d" " -f4)
        local progressT=$(echo $update | cut -d" " -f5)
        local progress=$(echo $update | cut -d" " -f6)
+
+       local full_progress=$( calc_progress $phase $progress )
+       
        local batteryT=$(echo $power | cut -d" " -f1)
        local battery=$(echo $power | cut -d" " -f2)
        local stateT=$(echo $power | cut -d" " -f3)
        local state=$(echo $power | cut -d" " -f4)
 
-       local dev="$hosttypeT $hosttype $hostT $host $imageT $image $phaseT $phase $progressT $progress $uptimeT $uptime $batteryT $battery $stateT $state $wlanT $wlan" 
+       local dev="$hosttypeT $hosttype $hostT $host $imageT $image $phaseT $phase($progress) $progressT $full_progress $uptimeT $uptime $batteryT $battery $stateT $state $wlanT $wlan" 
     else
 	local dev="$hosttypeT $hosttype $hostT $host"
     fi
@@ -95,17 +136,22 @@ done
 
 get_list(){
     local l=
-    local dev=$(ip route|grep default|head -n1|xargs|cut -d\  -f5)
+    local dev=$(/usr/bin/ip route|grep default|head -n1|xargs|cut -d" "  -f5)
     local liste=$(avahi-browse -at|grep "$dev IPv4 puavo"|xargs|sed -e "s/+ //g"|sed -e "s/local/|/g"|sed -e "s/#/ /g")
 
+#    echo "*****$dev*******"
+#    echo $liste
+    
      while test -n "$liste";do
         l=$(echo "$liste"|xargs|cut -d"|" -f1)
         liste=$(echo "$liste"|cut -d"|" -f2-)
         if test -n "$l";then 
 #	    local hosttype=$(echo $l|xargs|cut -d\  -f4);
-	    local hostname=$(echo $l|xargs|cut -d\  -f5);
+	    local hostname=$(echo $l|xargs|cut -d\  -f5);#echo;echo $hostname;echo 
 	    device=$(call_remote $hostname "status")  
-	    
+
+#local prog="<div class='w3-border'><div class='w3-grey' style='height:24px;width:$(gv percentage)%'></div></div>"
+ 
             local sql_cmd="insert into devices ( avahi, hosttype, $cols ) values ( '$hostname' , '$(gv hosttype)', '$(gv host)', '$(gv image)', '$(gv phase)', '$(gv progress)', '$(gv uptime)', '$(gv percentage)', '$(gv state)', '$(gv wlan)' );"
 
 	    echo "$sql_cmd" | sqlite3 $sql

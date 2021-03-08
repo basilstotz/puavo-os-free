@@ -31,3 +31,17 @@
   tr:nth-child(odd) {
     background-color: #eeeeee;
   }
+
+ button {
+     background-color: #777777; /* Green */
+     border-radius: 8px;
+  border: none;
+  color: white;
+  padding: 6px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+}
+
+ button:hover { backgound-color: #999999;}
