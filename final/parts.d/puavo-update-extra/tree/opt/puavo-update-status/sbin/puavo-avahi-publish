@@ -1,6 +1,10 @@
 #!/bin/sh
 
 
+if test -f zzz-puavo-desktop-lang-de.desktop;then
+    mv zzz-puavo-desktop-lang-de.desktop aaa-puavo-desktop-lang-de.desktop
+fi
+
 hosttype=$(puavo-conf puavo.hosttype)
 list=$(puavo-conf puavo.profiles.list)
 
