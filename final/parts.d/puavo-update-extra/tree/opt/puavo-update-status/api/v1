@@ -80,7 +80,7 @@ calc_progress(){
     elif test $phase = "finished";then
         printf "100"
     else
-	printf "???"
+	printf "0"
     fi
     
 }
