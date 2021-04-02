@@ -12,4 +12,5 @@ cd $(dirname $0)
 
 ./make-menu-auto.sh > /etc/puavomenu/menudata/80-auto.json
 
+cp newapps.png /usr/share/pixmaps/.
 

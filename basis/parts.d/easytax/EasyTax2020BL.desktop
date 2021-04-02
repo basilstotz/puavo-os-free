@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=EasyTax2020BL
-Comment=Steuererkärung 2020 Basseland
-Exec=/opt/easytaxbl/EasyTax2020BL/EasyTax-Programm_2020_BL
-Terminal=false
-Type=Application
-Icon=/opt/easytaxbl/EasyTax2020BL/lib/helpBL/BL.png
-Categories=Office
-Keywords=Office

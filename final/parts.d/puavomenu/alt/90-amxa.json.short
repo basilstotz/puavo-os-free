@@ -1,44 +1,7 @@
 {
   "programs": {
-    "joplin": {
-      "tags": "default"
-    },    
-    "nuudel": {
-      "name": "Nuudel - Termine und Umfragen",
-      "type": "custom",
-      "command": "webapps https://nuudel.digitalcourage.de/",
-      "icon": "/usr/share/pixmaps/nuudel-logo.png",
-      "tags": "default"
-    },
-    "remarkise": {
-      "name": "Remarkise - MD im Browser",
-      "type": "custom",
-      "command": "webapps https://tripu.github.io/remark/remarkise",
-      "icon": "/usr/share/pixmaps/remarkise.png",
-      "tags": "default"
-    },
-    "cafepitch": {
-      "tags": "default"
-    },    
-    "abricotine": {
-      "tags": "default"
-    },    
-    "mark-my-words": {
-      "tags": "default"
-    },    
-    "boostnote": {
-      "tags": "default"
-    },    
-    "formiko": {
-      "tags": "default"
-    },    
-    "ghostwriter": {
-      "tags": "default"
-    },    
-    "me.mitya57.ReText": {
-      "tags": "default"
-    },    
-    "net.poedit.Poedit": {
+      "zotero": {
+	  "name": "Zotero",
       "tags": "default"
     },    
       "apostrophe": {
@@ -49,262 +12,9 @@
 	"name": "Typora - Markdown",	  
       "tags": "default"
     },    
-    "com.teamviewer.TeamViewer": {
-      "tags": "default"
-    },    
-    "minetest-mumble": {
-      "tags": "default"
-    },    
-    "workadventure": {
-      "name": "WorkAdventure",
-      "type": "custom",
-      "command": "chromium https://workadventu.re/",
-      "icon": "/usr/share/pixmaps/workadventure.png",
-      "tags": "default"
-    },
-    "vorbild-schule": {
-      "name": "Kleines Mathespiel",
-      "type": "custom",
-      "command": "webapps https://mathe.vorbild-schule.de/gameMode",
-      "icon": "/usr/share/pixmaps/vorbild-schule.png",
-      "tags": "default"
-    },
-    "lumi": {
-      "name": "Lumi H5P Editor",
-      "type": "custom",
-      "command": "/opt/lumi/Lumi.AppImage",
-      "icon": "/usr/share/pixmaps/lumi.png",
-      "tags": "default"
-    },
-    "com.obsproject.Studio": {
-      "tags": "default"
-    },    
-    "syncthing-gtk": {
-      "tags": "default"
-    },    
-    "obs-tablet-remote": {
-      "name": "OBS Tablet Remote",
-      "type": "custom",
-      "command": "webapps http://t2t2.github.io/obs-tablet-remote",
-      "icon": "/usr/share/icons/Obsidian/apps/48/obs-studio.png",
-      "tags": "default"
-    },
-    "enigma": {
-      "tags": "default"
-    },    
-    "fillets-ng": {
-      "tags": "default"
-    },    
-    "org.mobsya.ThymioSuite": {
-      "tags": "default"
-    },    
-    "mathigon": {
-      "name": "Mathigon",
-      "type": "custom",
-      "command": "webapps https://de.mathigon.org",
-      "icon": "/usr/share/pixmaps/mathigon.png",
-      "tags": "default"
-    },
-    "virtscreen": {
-      "tags": "default"
-    },    
-    "org.gnome.Geary": {
-      "name": "Mail",
-      "tags": "default"
-    },    
-    "codimd": {
-      "name": "CodiMD (c3de.de)",
-      "type": "custom",
-      "command": "webapps https://codimd.c3d2.de/",
-      "icon": "/usr/share/pixmaps/meetzide_logo.png",
-      "tags": "default"
-    },
-    "presenta": {
-      "name": "Presenta",
-      "type": "custom",
-      "command": "webapps https://play.presenta.cc",
-      "icon": "/usr/share/pixmaps/meetzide_logo.png",
-      "tags": "default"
-    },
-    "sozi": {
-      "tags": "default"
-    },    
-    "meetzi": {
-      "name": "Meetzi Klassenzimmer",
-      "type": "custom",
-      "command": "chromium-browser https://klassenzimmer.meetzi.de",
-      "icon": "/usr/share/pixmaps/meetzide_logo.png",
-      "tags": "default"
-    },
-    "wbo": {
-      "name": "WB-Ophir - Whiteboard",
-      "type": "custom",
-      "command": "chomium-browser https://wbo.ophir.dev",
-      "icon": "/usr/share/pixmaps/wbo.jpeg",
-      "tags": "default"
-    },
-    "telegram": {
-      "tags": "default"
-    },    
-    "walc": {
-      "tags": "default"
-    },    
-    "profax": {
-      "name": "Profax Online",
-      "type": "custom",
-      "command": "webapps https://www.profaxonline.com",
-      "icon": "/usr/share/pixmaps/profax.png",
-      "tags": "default"
-    },
-    "Write": {
-      "tags": "default"
-    },    
-    "dis-donc-5": {
-      "name": "Dis Donc 5",
-      "type": "custom",
-      "command": "webapps https://002.lmvz.ch/dis-donc-5-lernplattform",
-      "icon": "/usr/share/pixmaps/dis-donc-5.png",
-      "tags": "default"
-    },
-    "xaos": { "tags": "default" },
-    "screenkey": { "tags": "default" },
-    "cryptpad": {
-      "name": "CryptPad - Online kollaborieren",
-      "type": "custom",
-      "command": "webapps https://cryptpad.fr",
-      "icon": "/usr/share/pixmaps/cryptpad.png",
-      "tags": "default"
-    },
-    "millefeuilles-online": {
-      "name": "MilleFeuilles-Online",
-      "type": "custom",
-      "command": "webapps https://serv88919410.secure-node.at/",
-      "icon": "/usr/share/pixmaps/mfo.png",
-      "tags": "default, languages, french"
-    },
-    "fichier-online": {
-      "name": "Fichier-Online",
-      "type": "custom",
-      "command": "webapps https://www.s-fichier.ch",
-      "icon": "/usr/share/pixmaps/fichier.png",
-      "tags": "default, languages, french"
-    },
-    "p5js": {
-      "name": "p5js - JavaScript-IDE",
-      "type": "custom",
-      "command": "webapps https://editor.p5js.org",
-      "icon": "/usr/share/icons/Faenza/categories/48/applications-accessories.png",
-      "tags": "default,programming"
-    },
-    "mindsteps": {
-      "name": "Mindsteps",
-      "type": "custom",
-      "command": "webapps https://user.mindsteps.ch",
-      "icon": "mindsteps.png",
-      "tags": "default"
-    },
-    "learning-view": {
-      "tags": "default"
-    },
-      "more": {
-	  "name": "more! - Cambridge English",
-	  "tags": "default",
-	  "type": "custom",
-	  "command": "webapps https://moreciip.cambridge.org",
-	  "icon": "/usr/share/pixmaps/more-app.png"
-    },
-      "mathetrainer" : {
-	  "name": "MatheTrainer",
-	  "type": "custom",
-	  "command":  "webapps https://003.lmvz.ch/matheprimar/sus/index.html",
-	  "icon": "/usr/share/pixmaps/mathetrainer.png",
-       "tags": "default"
-      },
     "linphone": {
       "icon": "/usr/share/pixmaps/phone-call-icon.png",
       "name": "Telefon"
-    },
-    "discord": {
-      "tags": "default"
-    },
-    "mumble": {
-      "tags": "default"
-    },
-    "amxa-talk": {
-      "name": "Jitsi-Meet (cyon.ch)",
-      "type": "custom",
-      "icon": "/usr/share/pixmaps/jitsi.png",
-      "command": "chromium-browser https://meet.cyon.tools/",
-      "tags": "default"
-    },
-    "jitsi-meet": {
-      "name": "Jitsi-Meet (switch.ch)",
-      "type": "custom",
-      "icon": "/usr/share/pixmaps/jitsi.png",
-      "command": "chromium-browser  https://open.meet.switch.ch",
-      "tags": "default"
-    },
-    "matrix-riot": {
-      "name": "Matrix-Element",
-      "type": "custom",
-      "icon": "/usr/share/pixmaps/matrix-logo.png",
-      "command": "chromium-browser https://app.element.io",
-      "tags": "default"
-    },
-    "mornin": {
-      "name": "Mornin Audiokonferenz",
-      "type": "custom",
-      "icon": "/usr/share/pixmaps/mornin.jpg",
-      "command": "chromium-browser https://mornin.fm",
-      "tags": "default"
-    },
-    "mozilla-hubs": {
-      "name": "Mozilla Hubs",
-      "type": "custom",
-      "icon": "/usr/share/pixmaps/mozilla-hubs.png",
-      "command": "chromium-browser https://hubs.mozilla.com",
-      "tags": "default"
-    },
-    "bigbluebutton": {
-      "name": "BigBlueButton (ch-open.ch)",
-      "type": "custom",
-      "icon": "/usr/share/pixmaps/BigBlueButton.png",
-      "command": "chromium-browser  https://bbb.ch-open.ch",
-      "tags": "default"
-    },
-    "blink": {
-      "tags": "default"
-    },
-    "nheko": {
-      "tags": "default"
-    },
-    "org.gnome.Calendar": {
-      "tags": "default"
-    },
-    "org.gnome.clocks": {
-      "tags": "default"
-    },
-    "org.gnome.Contacts": {
-      "tags": "default"
-    },
-    "org.gnome.Maps": {
-      "tags": "default"
-    },
-    "org.gnome.SoundRecorder": {
-      "tags": "default"
-    },
-    "org.gnome.Totem": {
-      "tags": "default"
-    },
-    "org.gnome.Weather.Application": {
-      "tags": "default"
-    },
-    "org.gnome.Todo": {
-      "tags": "default"
-    },
-    "org.gnome.Cheese": {
-      "name": "Kamera",
-      "tags": "default"
     },
     "org.gnome.gThumb": {
       "name": "Gallerie",
@@ -312,9 +22,6 @@
     },
     "gthumb": {
       "name": "Gallerie",
-      "tags": "default"
-    },
-    "org.gnome.tweaks": {
       "tags": "default"
     },
     "gnome-control-center": {
@@ -331,249 +38,6 @@
       "icon": "/usr/share/icons/gnome/48x48/apps/web-browser.png",
       "tags": "default"
     },
-    "org.gnome.Calculator": {
-      "tags": "default"
-    },
-    "org.gnome.Screenshot": {
-      "tags": "default"
-    },
-    "anton": {
-      "tags": "default"
-    },
-    "audiyou": {
-      "tags": "default"
-    },
-    "againstallodds": {
-      "tags": "default"
-    },
-    "antolin": {
-      "tags": "default"
-    },
-    "blindekuh": {
-      "tags": "default"
-    },
-    "blockly": {
-      "tags": "default"
-    },
-    "bodenlift": {
-      "tags": "default"
-    },
-    "classroomscreen": {
-      "tags": "default"
-    },
-    "code.org": {
-      "tags": "default"
-    },
-    "cool-driving": {
-      "tags": "default"
-    },
-    "duden": {
-      "tags": "default"
-    },
-    "duolingo": {
-      "tags": "default"
-    },
-    "dybuster-calc": {
-      "tags": "default"
-    },
-    "dybuster-ortho": {
-      "tags": "default"
-    },
-    "flickr": {
-      "tags": "default"
-    },
-    "flubidux": {
-      "tags": "default"
-    },
-    "fragfinn": {
-      "tags": "default"
-    },
-    "google-translate": {
-      "tags": "default"
-    },
-    "helles-koepfchen": {
-      "tags": "default"
-    },
-    "impressive": {
-      "tags": "default"
-    },
-    "internet-abc": {
-      "tags": "default"
-    },
-    "kindersuchmaschine": {
-      "tags": "default"
-    },
-    "kinderwald": {
-      "tags": "default"
-    },
-    "kinderzeitmaschine": {
-      "tags": "default"
-    },
-    "leo": {
-      "tags": "default"
-    },
-    "lerntrix": {
-      "tags": "default"
-    },
-    "map-geo-admin": {
-      "tags": "default"
-    },
-    "mathe-im-netz": {
-      "tags": "default"
-    },
-    "mathwelt": {
-      "tags": "default"
-    },
-    "minibooks": {
-      "tags": "default"
-    },
-    "minitube": {
-      "tags": "default"
-    },
-    "minipodium": {
-      "tags": "default"
-    },
-    "musikwissenschaften": {
-      "tags": "default"
-    },
-    "mymoment": {
-      "tags": "default"
-    },
-    "netcity": {
-      "tags": "default"
-    },
-    "netla": {
-      "tags": "default"
-    },
-    "nextcloud": {
-      "tags": "default"
-    },
-    "notenmax": {
-      "tags": "default"
-    },
-    "openstreetmap": {
-      "tags": "default"
-    },
-    "openthesaurus": {
-      "tags": "default"
-    },
-    "orthografietrainer": {
-      "tags": "default"
-    },
-    "onthesamepage": {
-      "tags": "default"
-    },
-    "phet": {
-      "tags": "default"
-    },
-    "schulkarte": {
-      "tags": "default"
-    },
-    "sikore": {
-      "tags": "default"
-    },
-    "snap": {
-      "tags": "default"
-    },
-    "toporopa": {
-      "tags": "default"
-    },
-    "unserkoerper": {
-      "tags": "default"
-    },
-    "umap": {
-      "tags": "default"
-    },
-    "zeitklicks": {
-      "tags": "default"
-    },
-    "leseschlau": {
-      "tags": "default"
-    },
-    "lesewerkstatt": {
-      "tags": "default"
-    },
-    "logisch1": {
-      "tags": "default"
-    },
-    "logisch2": {
-      "tags": "default"
-    },
-    "logisch3": {
-      "tags": "default"
-    },
-    "logisch4": {
-      "tags": "default"
-    },
-    "logisch5": {
-      "tags": "default"
-    },
-    "logisch6": {
-      "tags": "default"
-    },
-    "newworld1": {
-      "tags": "default"
-    },
-    "newworld2": {
-      "tags": "default"
-    },
-    "rechentraining": {
-      "tags": "default"
-    },
-    "rechentraining6": {
-      "tags": "default"
-    },
-    "blitzrechnen": {
-      "tags": "default"
-    },
-    "suchbuch": {
-      "tags": "default"
-    },
-    "sprachstarken": {
-      "tags": "default"
-    },
-    "activsoftware": {
-      "tags": "default"
-    },
-    "activsoftware-nc": {
-      "tags": "default"
-    },
-    "asebachallenge": {
-      "tags": "default"
-    },
-    "asebaonlinehelp": {
-      "tags": "default"
-    },
-    "asebaplayground": {
-      "tags": "default"
-    },
-    "asebastudio": {
-      "tags": "default"
-    },
-    "asebastudiothymio": { "tags": "default" },
-    "avidemux-gtk": { "tags": "default" },
-    "edulo": { "tags": "default" },
-    "dosemu": {
-      "tags": "default"
-    },
-    "dosbox": {
-      "tags": "default"
-    },
-    "fr.handbrake.ghb": {
-      "tags": "default"
-    },
-    "gummi": {
-      "tags": "default"
-    },
-    "gtk-recordmydesktop": {
-      "tags": "default"
-    },
-    "net.minetest.minetest": {
-      "tags": "default"
-    },
-    "moodledesktop": {
-      "tags": "default"
-    },
     "onlyoffice-desktopeditors": {
 	"icon": "/opt/onlyoffice/desktopeditors/asc-de-48.png",
 	"tags": "default"
@@ -582,60 +46,16 @@
 	"name": "Fernseher (Kodi)",
 	"tags": "default"
     },
-    "kazam": {
-      "tags": "default"
-    },
-    "lehreroffice": {
-      "tags": "default"
-    },
-    "pdfarranger": {
-      "tags": "default"
-    },
-    "photocollage": {
-      "tags": "default"
-    },
-    "photofilmstripe": {
-      "tags": "default"
-    },
-    "primalogo": {
-      "tags": "default"
-    },
-    "texmaker": {
-      "tags": "default"
-    },
-    "tipp10": {
-      "tags": "default"
-    },
-    "thymioupgrader": {
-      "tags": "default"
-    },
-    "thymiovpl": {
-      "tags": "default"
-    },
-    "thymiownetconfig": {
-      "tags": "default"
-    },
-    "vokoscreen": {
-      "tags": "default"
-    },
-    "xmind": {
-      "tags": "default"
-    },
-    "xosview": {
-      "tags": "default"
-    },
-    "xlogo": {
-      "tags": "default"
-    },
-    "xlogo-online": {
-      "tags": "default"
-    },
-    "xournal": {
-      "tags": "default"
-    },
-    "com.github.xournalpp.xournalpp": {
-      "tags": "default"
-    }
+    "asebachallenge": {"tags": "default"},
+    "asebaonlinehelp": {  "tags": "default" },
+    "asebaplayground": {  "tags": "default"  },
+    "asebastudio": {  "tags": "default"  },
+    "asebastudiothymio": { "tags": "default" },
+      "asebawebridge": { "tags": "default" },
+      "thymioupgrader": { "tags": "default" },
+      "thymiovpl": { "tags": "default" },
+      "thymionetconfig": { "tags": "default" },
+    "net.minetest.minetest": { "tags": "default" }
   },
   "menus": {
     "menu-gnome": {
@@ -886,7 +306,8 @@
 	  "typora",
           "cryptpad",
 	  "boostnote", "formiko", "ghostwriter", "me.mitya57.ReText", "mark-my-words", "abricotine",
-        "scribus",
+          "scribus",
+	  "zotero",
         "vym",
         "com.github.xournalpp.xournalpp",
         "cmaptools",
@@ -1120,7 +541,8 @@
         "lerntrix",
         "helles-koepfchen",
         "pahvi",
-        "anton",
+          "anton",
+	  "mia-heft",
         "tipp10",
         "openthesaurus",
         "minibooks",
@@ -1387,8 +809,7 @@
 	    "menu-touch",
           "menu-whiteboard",
           "menu-applications",
-            "menu-google-apps",
-	    "menu-newapps"
+          "menu-google-apps"
         ]
     },
     "category-subjects": {

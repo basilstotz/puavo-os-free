@@ -43,11 +43,12 @@ echo -n "   }"
 #categorie start
 FIRST_A=0
 echo ","
-echo "  \"categories\": {"
-echo "     \"category-devel\": {"
-echo "        \"name\":  \"Neue Programme\","
-echo "        \"position\": 10,"
-echo "        \"hidden_by_default\": true,"
+echo "  \"menus\": {"
+echo "     \"menu-newapps\": {"
+echo "        \"name\":  \"Mehr Programme\","
+#echo "        \"position\": 20,"
+echo "        \"icon\": \"/usr/share/pixmaps/newapps.png\","
+echo "        \"hidden_by_default\": false,"
 
 #programm array start
 echo "        \"programs\": ["
