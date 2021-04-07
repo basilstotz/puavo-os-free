@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd $(dirname $0)
+
 #downlaod
 
 if ! test -d brands;then
@@ -9,7 +11,7 @@ fi
 
 echo -n "printer-ppds installing ....."
 
-cd $(dirname $0)
+
 
 for P in brands/*; do
     $P/install.sh
