@@ -1103,7 +1103,10 @@
         "de": "Deutsch"
       },
       "icon": "/usr/share/icons/Faenza/apps/64/gnome-dictionary.png",
-      "programs": [
+	"programs": [
+	    "oncoo",
+	    "kahoot",
+	    "quizlet",
         "edulo",
         "learning-view",
         "mindsteps",

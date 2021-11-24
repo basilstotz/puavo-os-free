@@ -1,5 +1,26 @@
 {
-  "programs": {
+ "programs": {
+    "oncoo": {
+      "name": "Oncoo",
+      "type": "custom",
+      "command": "webapps https://www.oncoo.de/",
+      "icon": "/usr/share/pixmaps/oncoo.jpg",
+      "tags": "default"
+    },	
+    "quizlet": {
+      "name": "Quizlet",
+      "type": "custom",
+      "command": "webapps https://quizlet.com/de/",
+      "icon": "/usr/share/pixmaps/quizlet.png",
+      "tags": "default"
+    },	
+    "kahoot": {
+      "name": "Kahoot!",
+      "type": "custom",
+      "command": "webapps https://kahoot.com/",
+      "icon": "/usr/share/pixmaps/kahoot.png",
+      "tags": "default"
+    },
     "mia-heft": {
       "name": "Mia Heft",
       "type": "custom",

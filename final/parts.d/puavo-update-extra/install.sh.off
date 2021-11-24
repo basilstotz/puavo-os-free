@@ -1,0 +1,12 @@
+#!/bin/sh
+
+cd $(dirname $0)
+
+./patch/lookup-image-server-by-dns-patch.sh
+
+cp -r ./tree/* /
+
+systemctl enable puavo-avahi-publish.service
+
+
+
