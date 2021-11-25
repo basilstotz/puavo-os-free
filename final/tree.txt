@@ -1,0 +1,32 @@
+.
+├── bin.d
+│   ├── generate-snakeoil-cert.sh
+│   └── make-webfs-dir.sh
+├── debs.d
+│   ├── puavo-image-utils_0.1-40.3_all.deb
+│   └── rpi-imager_1.6.2_amd64.deb
+├── lists.d
+│   ├── gedit-plugins.list
+│   ├── snap.list
+│   ├── wireguard.list
+│   └── zbar.list
+├── parts.d
+│   ├── artwork
+│   ├── printer-ppds
+│   ├── profile-d
+│   ├── puavomenu
+│   ├── tuxpaint-patch
+│   ├── webapps
+│   ├── webfs
+│   └── zzz_puavomenu-auto-final
+├── partsed.d
+│   ├── appimged
+│   ├── flatpak
+│   ├── https-localhost
+│   ├── puavo-update-extra
+│   └── snapbtrex
+├── pre.d
+│   └── patch-image-conf.sh
+└── tree.txt
+
+19 directories, 10 files

@@ -1,0 +1,4 @@
++profile +tuxpaint +snaptrex   -> geht nicht
+-tuxpaint -snaprex  --> geht nicht
++tuxpaint +snaprex +modified profile.d
+
