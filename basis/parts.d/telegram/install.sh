@@ -4,9 +4,10 @@ cd $(dirname $0)
 
 #download and unpack
 
+
 if ! test -d Telegram;then
-    wget https://github.com/telegramdesktop/tdesktop/releases/download/v2.5.8/tsetup.2.5.8.tar.xz
-    tar -xf tsetup.2.5.8.tar.xz
+    wget https://github.com/telegramdesktop/tdesktop/releases/download/v3.2.5/tsetup.3.2.5.tar.xz
+    tar -xf tsetup.3.2.5.tar.xz
 fi
 
 
