@@ -1,3 +1,4 @@
+if ! test "$UID" = 0; then
 if grep -q 'de_CH.UTF-8' /etc/default/locale; then 
    export LANG=de_CH.UTF-8
    export LANGUAGE=de
@@ -15,4 +16,4 @@ if grep -q 'de_CH.UTF-8' /etc/default/locale; then
    export LC_IDENTIFICATION="de_CH.UTF-8"
    export LC_ALL=
 fi
-
+fi
