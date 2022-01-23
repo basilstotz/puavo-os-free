@@ -9,7 +9,7 @@ case  $DIST in
        apt-get -y -t buster-backports install geary
        ;;
        11)
-           apt-get install geary
+           apt-get -y install geary
 	   ;;
        *)
 	   ;;

@@ -35,3 +35,4 @@ if ! test -e $CHROOT/etc/puavo-conf/image.json.ori;then
     cp $CHROOT/etc/puavo-conf/image.json $CHROOT/etc/puavo-conf/image.json.ori
 fi
 patch_image_conf < $CHROOT/etc/puavo-conf/image.json.ori > $CHROOT/etc/puavo-conf/image.json
+

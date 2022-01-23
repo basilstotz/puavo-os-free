@@ -18,6 +18,15 @@ for P in brands/*; do
 done
 
 
+#patch for canon
+if test -d /opt/cel/; then
+    ln -s /opt/cel/ppd/ /usr/share/cups/model/
+    mv /usr/share/cups/model/ppd /usr/share/cups/model/cel
+    ln -s /opt/cel/bin/sicgsfilter /usr/lib/cups/filter/
+    ln -s /opt/cel/bin/sicnc /usr/lib/cups/filter/      
+fi
+
+
 echo "done"
 
 

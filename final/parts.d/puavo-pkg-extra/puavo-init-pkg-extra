@@ -1,0 +1,110 @@
+#!/bin/sh
+
+UNCONFIGURED=""
+
+
+
+
+init_pkgs(){
+    PACKS="$1"
+    NET="$2"
+    reload_menudata=false
+    for PKG in $PACKS; do
+	ID=$(puavo-pkg show -F Id $PKG)
+        if test -n "$ID"; then
+
+	    INSTALLER="/images/puavo-pkg/installers/$PKG/$ID.tar.gz"
+	    CACHE=$(tar -O -x $PKG/upstream_pack_sha384sum -z -f $INSTALLER)
+            if test -f /images/puavo-pkg/cache/upstream_packs/$PKG/$CACHE; then
+               #reload_menudata=true
+               puavo-pkg $ACTION $INSTALLER
+            else
+                if $NET; then
+                    #reload_menudata=true
+                    puavo-pkg $ACTION $INSTALLER
+                else
+                    UNCONFIGURED="$UNCONFIGURED $PKG"
+                fi
+            fi
+	    
+        else
+	    UNCONFIGURED="$UNCONFIGURED $PKG"
+	fi
+    done
+}
+
+finish(){
+
+
+
+    
+    /usr/local/sbin/puavo-menu-moreapps > /etc/puavomenu/menudata/80-auto.json.tmp
+
+    if test "$(stat -c%s /etc/puavomenu/menudata/80-auto.json.tmp)" > 100;then
+	if test -f /etc/puavomenu/menudata/80-auto.json; then
+	    if ! test -f /etc/puavomenu/menudata/80-auto.json.bak; then
+		mv /etc/puavomenu/menudata/80-auto.json /etc/puavomenu/menudata/80-auto.json.bak
+	    fi
+	fi
+	mv /etc/puavomenu/menudata/80-auto.json.tmp /etc/puavomenu/menudata/80-auto.json
+    fi
+        
+    echo  'reloading puavomenu data'
+    for puavomenu_socket in /run/user/*/puavomenu; do
+        echo reload-menudata | nc -U -w 5 "$puavomenu_socket" || true
+    done
+
+    echo "sleep forever ..."
+    sleep 99999999999999999999999
+}
+
+
+
+#PACKAGES="blitzrechnen leseschlau newworld rechentraining rechentraining6 sprachstarken"
+PACKAGES=$(puavo-conf puavo.pkgs.ui.pkglist) 
+
+if test -z "$PACKAGES"; then
+    finish
+fi
+
+case $(cat /etc/puavo-image/name) in
+    puavo-os-free-*)
+	ACTION="install"
+	;;
+    puavo-os-amxa-*)
+	ACTION="prepare"
+	;;
+    *)
+	finish
+	;;
+esac
+
+# list all installed apps
+if ! test -f /var/local/puavo-img-tool/applications.list;then
+       ls /usr/share/applications/*.desktop | xargs basename -a  > /var/local/puavo-img-tool/applications.list
+fi
+
+
+#echo packages: $PACKAGES
+
+init_pkgs "$PACKAGES" false
+
+#echo unconfigured: $UNCONFIGURED
+
+for I in $(seq 20);do
+    if host images.amxa.ch; then
+	puavo-pkg-update --update-installers
+        init_pkgs "$UNCONFIGURED" true
+	echo "ok, all done"
+	#notify-send "Alle Aktualisierugen wurden erfolgreich geladen"
+	finish
+    fi
+    echo "sleep $I ..."
+    sleep 1
+done
+
+echo "no network. i give up"
+finish
+
+
+exit 0	    

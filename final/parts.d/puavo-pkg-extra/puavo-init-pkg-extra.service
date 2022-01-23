@@ -1,0 +1,12 @@
+[Unit]
+Description=init puavo packages 
+After=syslog.target network.target nss-lookup.target
+
+[Service]
+Type=simple
+#ExecStartPre=/bin/bash -c 'until host images.amxa.ch; do sleep 5; done'
+ExecStart=/usr/local/sbin/puavo-init-pkg-extra
+
+
+[Install]
+WantedBy=multi-user.target

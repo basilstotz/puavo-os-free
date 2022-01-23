@@ -10,7 +10,7 @@ cd $(dirname $0)
 # here this is done with bin.d/make-auto-menu-init.sh
 
 
-./make-menu-auto.sh > /etc/puavomenu/menudata/80-auto.json
+/usr/local/sbin/puavo-menu-moreapps > /etc/puavomenu/menudata/80-auto.json
 
 cp newapps.png /usr/share/pixmaps/.
 
