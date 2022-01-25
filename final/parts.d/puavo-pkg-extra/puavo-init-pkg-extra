@@ -24,7 +24,8 @@ init_pkgs(){
                     puavo-pkg $ACTION $INSTALLER
                 else
                     UNCONFIGURED="$UNCONFIGURED $PKG"
-                fi
+
+		fi
             fi
 	    
         else
@@ -34,19 +35,18 @@ init_pkgs(){
 }
 
 finish(){
-
-
-
     
-    /usr/local/sbin/puavo-menu-moreapps > /etc/puavomenu/menudata/80-auto.json.tmp
+    /usr/local/sbin/puavo-patch-50-default-json
 
-    if test "$(stat -c%s /etc/puavomenu/menudata/80-auto.json.tmp)" > 100;then
-	if test -f /etc/puavomenu/menudata/80-auto.json; then
-	    if ! test -f /etc/puavomenu/menudata/80-auto.json.bak; then
-		mv /etc/puavomenu/menudata/80-auto.json /etc/puavomenu/menudata/80-auto.json.bak
+    /usr/local/sbin/puavo-menu-moreapps > /etc/puavomenu/menudata/80-menu-moreapps.json.tmp
+
+    if test "$(stat -c%s /etc/puavomenu/menudata/80-menu-moreapps.json.tmp)" > 100;then
+	if test -f /etc/puavomenu/menudata/80-menu-moreapps.json; then
+	    if ! test -f /etc/puavomenu/menudata/80-menu-moreapps.json.bak; then
+		mv /etc/puavomenu/menudata/80-menu-moreapps.json /etc/puavomenu/menudata/80-menu-moreapps.json.bak
 	    fi
 	fi
-	mv /etc/puavomenu/menudata/80-auto.json.tmp /etc/puavomenu/menudata/80-auto.json
+	mv /etc/puavomenu/menudata/80-menu-moreapps.json.tmp /etc/puavomenu/menudata/80-menu-moreapps.json
     fi
         
     echo  'reloading puavomenu data'
@@ -64,24 +64,14 @@ finish(){
 PACKAGES=$(puavo-conf puavo.pkgs.ui.pkglist) 
 
 if test -z "$PACKAGES"; then
-    finish
+    sleep 99999999999999999999999
 fi
 
-case $(cat /etc/puavo-image/name) in
-    puavo-os-free-*)
-	ACTION="install"
-	;;
-    puavo-os-amxa-*)
-	ACTION="prepare"
-	;;
-    *)
-	finish
-	;;
-esac
+ACTION="install"
 
 # list all installed apps
 if ! test -f /var/local/puavo-img-tool/applications.list;then
-       ls /usr/share/applications/*.desktop | xargs basename -a  > /var/local/puavo-img-tool/applications.list
+       ls /usr/share/applications/*.desktop | xargs -n 1 basename   > /var/local/puavo-img-tool/applications.list
 fi
 
 

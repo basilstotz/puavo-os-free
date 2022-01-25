@@ -1,7 +1,0 @@
-[Unit]
-Description=Announce Puavo Devices
-[Service]
-Type=simple
-ExecStart=/opt/puavo-update-status/sbin/puavo-avahi-publish
-[Install]
-WantedBy=multi-user.target
